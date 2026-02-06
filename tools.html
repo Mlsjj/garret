@@ -53,15 +53,75 @@
       }
       /* 通用按钮反馈 */
       .btn-effect {
-        transition: all 0.2s ease;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        cursor: pointer;
+      }
+      .btn-effect::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transform: translateX(-100%);
+        transition: transform 0.6s ease;
+        z-index: -1;
       }
       .btn-effect:hover {
-        transform: scale(1.05);
-        box-shadow: 0 4px 12px rgba(22, 93, 255, 0.2);
+        transform: translateY(-2px) scale(1.03);
+        box-shadow: 0 8px 20px rgba(22, 93, 255, 0.4);
+      }
+      .btn-effect:hover::before {
+        transform: translateX(100%);
+        animation: shimmer 1.5s ease-in-out infinite;
       }
       .btn-effect:active {
-        transform: scale(0.98);
-        box-shadow: none;
+        transform: translateY(0) scale(0.98);
+        box-shadow: 0 4px 12px rgba(22, 93, 255, 0.3);
+      }
+      
+      @keyframes shimmer {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(100%);
+        }
+      }
+      
+      /* 渐变按钮增强 */
+      .bg-gradient-primary {
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+      }
+      
+      .bg-gradient-primary::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, #7B61FF, #FF61BF, #165DFF);
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      
+      .bg-gradient-primary:hover::after {
+        opacity: 1;
+        animation: gradientShift 3s ease-in-out infinite;
+      }
+      
+      @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
       }
       /* 链接渐变下划线 */
       .link-grad {
@@ -90,15 +150,127 @@
         from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
       }
+      
+      /* 工具卡片进入动画 */
+      .tool-card {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.3s ease;
+      }
+      
+      .tool-card.animate-in {
+        animation: fadeIn 0.6s ease forwards;
+      }
+      
+      /* 工具卡片悬停效果增强 */
+      .tool-card:hover {
+        transform: translateY(-10px) scale(1.03);
+        box-shadow: 0 20px 40px rgba(22, 93, 255, 0.25);
+        border-color: rgba(22, 93, 255, 0.7);
+      }
+      
+      .tool-card:hover::before {
+        opacity: 1;
+        transform: rotate(45deg) translateX(25%);
+        animation: shine 1.5s ease-in-out infinite;
+      }
+      
+      @keyframes shine {
+        0% {
+          transform: rotate(45deg) translateX(-100%);
+        }
+        100% {
+          transform: rotate(45deg) translateX(100%);
+        }
+      }
+      
+      /* 平滑滚动 */
+      html {
+        scroll-behavior: smooth;
+      }
+      
+      /* 工具操作反馈 */
+      .tool-operation-feedback {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 14px 24px;
+        border-radius: 12px;
+        background: linear-gradient(90deg, #165DFF, #7B61FF);
+        color: white;
+        box-shadow: 0 8px 24px rgba(22, 93, 255, 0.4);
+        transform: translateX(120%);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1000;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      
+      .tool-operation-feedback::before {
+        content: '✓';
+        font-weight: bold;
+        font-size: 16px;
+        background: rgba(255, 255, 255, 0.2);
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .tool-operation-feedback.show {
+        transform: translateX(0);
+        animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards, float 3s ease-in-out infinite;
+      }
+      
+      @keyframes slideInRight {
+        from {
+          transform: translateX(120%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      
+      @keyframes float {
+        0%, 100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+      
+      /* 加载状态 */
+      .loading {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(22, 93, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: #165DFF;
+        animation: spin 1s ease-in-out infinite;
+      }
+      
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
       /* 工具卡片悬停效果 */
       .tool-card {
         transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
+        border-radius: 16px;
       }
       .tool-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 12px 24px rgba(22, 93, 255, 0.15);
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 16px 32px rgba(22, 93, 255, 0.2);
+        border-color: rgba(22, 93, 255, 0.5);
       }
       .tool-card::before {
         content: '';
@@ -111,10 +283,15 @@
         transform: rotate(45deg);
         transition: all 0.6s ease;
         opacity: 0;
+        z-index: 1;
       }
       .tool-card:hover::before {
         opacity: 1;
         transform: rotate(45deg) translateX(25%);
+      }
+      .tool-card-content {
+        position: relative;
+        z-index: 2;
       }
       /* 工具标签样式 */
       .tool-tag {
@@ -179,19 +356,35 @@
 </head>
 <body class="bg-dark text-light min-h-screen">
   <!-- 导航栏 -->
-  <nav class="bg-gray-900 border-b border-gray-800 sticky top-0 z-50">
-    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="index.html" class="flex items-center space-x-2">
-        <div class="w-10 h-10 rounded-full bg-gradient-primary flex items-center justify-center">
+  <nav class="bg-gray-900 border-b border-gray-800 sticky top-0 z-50 transition-all duration-300">
+    <div class="container mx-auto px-4 py-3 flex items-center justify-between transition-all duration-300">
+      <a href="index.html" class="flex items-center space-x-2 transition-all duration-300">
+        <div class="w-10 h-10 rounded-full bg-gradient-primary flex items-center justify-center transition-all duration-300">
           <i class="fa fa-wrench text-white text-xl"></i>
         </div>
-        <span class="text-xl font-bold text-white">常数空间</span>
+        <span class="text-xl font-bold text-white transition-all duration-300">常数空间</span>
       </a>
-      <div class="flex items-center space-x-6">
+      <!-- 桌面导航 -->
+      <div class="hidden md:flex items-center space-x-6 transition-all duration-300">
         <a href="index.html" class="text-gray-300 hover:text-white transition-colors">首页</a>
         <a href="tools.html" class="text-primary font-medium">工具合集</a>
         <a href="about.html" class="text-gray-300 hover:text-white transition-colors">关于我们</a>
         <button class="bg-gradient-primary text-white px-4 py-2 rounded-full btn-effect">
+          <i class="fa fa-rocket mr-2"></i>开始使用
+        </button>
+      </div>
+      <!-- 移动导航按钮 -->
+      <button class="md:hidden text-white text-2xl" id="mobileMenuButton">
+        <i class="fa fa-bars"></i>
+      </button>
+    </div>
+    <!-- 移动导航菜单 -->
+    <div class="md:hidden hidden bg-gray-800" id="mobileMenu">
+      <div class="container mx-auto px-4 py-3 flex flex-col space-y-4">
+        <a href="index.html" class="text-gray-300 hover:text-white transition-colors py-2">首页</a>
+        <a href="tools.html" class="text-primary font-medium py-2">工具合集</a>
+        <a href="about.html" class="text-gray-300 hover:text-white transition-colors py-2">关于我们</a>
+        <button class="bg-gradient-primary text-white px-4 py-2 rounded-full btn-effect w-full">
           <i class="fa fa-rocket mr-2"></i>开始使用
         </button>
       </div>
@@ -232,125 +425,324 @@
   <!-- 工具卡片区域 -->
   <section class="py-16 bg-dark">
     <div class="container mx-auto px-4">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="toolGrid">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8" id="toolGrid">
         <!-- 开发工具 -->
         <div class="tool-card bg-gray-800/50 rounded-2xl p-6 border border-gray-700 cursor-pointer" data-tool="jsonFormatter" data-category="development">
-          <div class="text-primary text-3xl mb-4">
-            <i class="fa fa-code"></i>
-          </div>
-          <h3 class="text-xl font-semibold mb-3 text-white">JSON格式化</h3>
-          <p class="text-gray-400 mb-4">格式化和验证JSON数据，使其更易阅读</p>
-          <div class="flex flex-wrap gap-2">
-            <span class="tool-tag">JSON</span>
-            <span class="tool-tag">格式化</span>
-            <span class="tool-tag">验证</span>
+          <div class="tool-card-content">
+            <div class="text-primary text-3xl mb-4">
+              <i class="fa fa-code"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-white">JSON格式化</h3>
+            <p class="text-gray-400 mb-4">格式化和验证JSON数据，使其更易阅读</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tool-tag">JSON</span>
+              <span class="tool-tag">格式化</span>
+              <span class="tool-tag">验证</span>
+            </div>
           </div>
         </div>
 
         <div class="tool-card bg-gray-800/50 rounded-2xl p-6 border border-gray-700 cursor-pointer" data-tool="codeEditor" data-category="development">
-          <div class="text-primary text-3xl mb-4">
-            <i class="fa fa-pencil"></i>
-          </div>
-          <h3 class="text-xl font-semibold mb-3 text-white">代码编辑器</h3>
-          <p class="text-gray-400 mb-4">在线编辑和运行代码，支持多种编程语言</p>
-          <div class="flex flex-wrap gap-2">
-            <span class="tool-tag">代码</span>
-            <span class="tool-tag">编辑器</span>
-            <span class="tool-tag">运行</span>
+          <div class="tool-card-content">
+            <div class="text-primary text-3xl mb-4">
+              <i class="fa fa-pencil"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-white">代码编辑器</h3>
+            <p class="text-gray-400 mb-4">在线编辑和运行代码，支持多种编程语言</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tool-tag">代码</span>
+              <span class="tool-tag">编辑器</span>
+              <span class="tool-tag">运行</span>
+            </div>
           </div>
         </div>
 
         <div class="tool-card bg-gray-800/50 rounded-2xl p-6 border border-gray-700 cursor-pointer" data-tool="regexTester" data-category="development">
-          <div class="text-primary text-3xl mb-4">
-            <i class="fa fa-search"></i>
+          <div class="tool-card-content">
+            <div class="text-primary text-3xl mb-4">
+              <i class="fa fa-search"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-white">正则表达式测试器</h3>
+            <p class="text-gray-400 mb-4">测试和验证正则表达式，实时查看匹配结果</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tool-tag">正则表达式</span>
+              <span class="tool-tag">测试</span>
+              <span class="tool-tag">匹配</span>
+            </div>
           </div>
-          <h3 class="text-xl font-semibold mb-3 text-white">正则表达式测试器</h3>
-          <p class="text-gray-400 mb-4">测试和验证正则表达式，实时查看匹配结果</p>
-          <div class="flex flex-wrap gap-2">
-            <span class="tool-tag">正则表达式</span>
-            <span class="tool-tag">测试</span>
-            <span class="tool-tag">匹配</span>
+        </div>
+
+        <div class="tool-card bg-gray-800/50 rounded-2xl p-6 border border-gray-700 cursor-pointer" data-tool="apiTester" data-category="development">
+          <div class="tool-card-content">
+            <div class="text-primary text-3xl mb-4">
+              <i class="fa fa-exchange"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-white">API测试小工具</h3>
+            <p class="text-gray-400 mb-4">测试API接口，发送请求并查看响应结果</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tool-tag">API</span>
+              <span class="tool-tag">测试</span>
+              <span class="tool-tag">请求</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tool-card bg-gray-800/50 rounded-2xl p-6 border border-gray-700 cursor-pointer" data-tool="gitCommandGenerator" data-category="development">
+          <div class="tool-card-content">
+            <div class="text-primary text-3xl mb-4">
+              <i class="fa fa-git"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-white">Git命令生成器</h3>
+            <p class="text-gray-400 mb-4">生成常用Git命令，简化版本控制操作</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tool-tag">Git</span>
+              <span class="tool-tag">命令</span>
+              <span class="tool-tag">生成</span>
+            </div>
           </div>
         </div>
 
         <!-- 设计工具 -->
         <div class="tool-card bg-gray-800/50 rounded-2xl p-6 border border-gray-700 cursor-pointer" data-tool="colorPicker" data-category="design">
-          <div class="text-secondary text-3xl mb-4">
-            <i class="fa fa-paint-brush"></i>
-          </div>
-          <h3 class="text-xl font-semibold mb-3 text-white">颜色选择器</h3>
-          <p class="text-gray-400 mb-4">选择和转换颜色，获取各种颜色格式的代码</p>
-          <div class="flex flex-wrap gap-2">
-            <span class="tool-tag">颜色</span>
-            <span class="tool-tag">选择器</span>
-            <span class="tool-tag">转换</span>
+          <div class="tool-card-content">
+            <div class="text-secondary text-3xl mb-4">
+              <i class="fa fa-paint-brush"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-white">颜色选择器</h3>
+            <p class="text-gray-400 mb-4">选择和转换颜色，获取各种颜色格式的代码</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tool-tag">颜色</span>
+              <span class="tool-tag">选择器</span>
+              <span class="tool-tag">转换</span>
+            </div>
           </div>
         </div>
 
         <div class="tool-card bg-gray-800/50 rounded-2xl p-6 border border-gray-700 cursor-pointer" data-tool="animationTool" data-category="design">
-          <div class="text-secondary text-3xl mb-4">
-            <i class="fa fa-magic"></i>
-          </div>
-          <h3 class="text-xl font-semibold mb-3 text-white">动画工具</h3>
-          <p class="text-gray-400 mb-4">创建和预览CSS动画效果，生成动画代码</p>
-          <div class="flex flex-wrap gap-2">
-            <span class="tool-tag">动画</span>
-            <span class="tool-tag">CSS</span>
-            <span class="tool-tag">预览</span>
+          <div class="tool-card-content">
+            <div class="text-secondary text-3xl mb-4">
+              <i class="fa fa-magic"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-white">动画工具</h3>
+            <p class="text-gray-400 mb-4">创建和预览CSS动画效果，生成动画代码</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tool-tag">动画</span>
+              <span class="tool-tag">CSS</span>
+              <span class="tool-tag">预览</span>
+            </div>
           </div>
         </div>
 
         <div class="tool-card bg-gray-800/50 rounded-2xl p-6 border border-gray-700 cursor-pointer" data-tool="chartGenerator" data-category="design">
-          <div class="text-secondary text-3xl mb-4">
-            <i class="fa fa-bar-chart"></i>
+          <div class="tool-card-content">
+            <div class="text-secondary text-3xl mb-4">
+              <i class="fa fa-bar-chart"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-white">图表生成器</h3>
+            <p class="text-gray-400 mb-4">创建各种类型的图表，可视化数据</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tool-tag">图表</span>
+              <span class="tool-tag">数据</span>
+              <span class="tool-tag">可视化</span>
+            </div>
           </div>
-          <h3 class="text-xl font-semibold mb-3 text-white">图表生成器</h3>
-          <p class="text-gray-400 mb-4">创建各种类型的图表，可视化数据</p>
-          <div class="flex flex-wrap gap-2">
-            <span class="tool-tag">图表</span>
-            <span class="tool-tag">数据</span>
-            <span class="tool-tag">可视化</span>
+        </div>
+
+        <div class="tool-card bg-gray-800/50 rounded-2xl p-6 border border-gray-700 cursor-pointer" data-tool="gradientGenerator" data-category="design">
+          <div class="tool-card-content">
+            <div class="text-secondary text-3xl mb-4">
+              <i class="fa fa-paint-brush"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-white">渐变色工具</h3>
+            <p class="text-gray-400 mb-4">创建和预览渐变色，生成CSS渐变代码</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tool-tag">渐变</span>
+              <span class="tool-tag">颜色</span>
+              <span class="tool-tag">CSS</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tool-card bg-gray-800/50 rounded-2xl p-6 border border-gray-700 cursor-pointer" data-tool="svgEditor" data-category="design">
+          <div class="tool-card-content">
+            <div class="text-secondary text-3xl mb-4">
+              <i class="fa fa-code"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-white">SVG图标编辑器</h3>
+            <p class="text-gray-400 mb-4">快速编辑和预览SVG图标，生成优化代码</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tool-tag">SVG</span>
+              <span class="tool-tag">图标</span>
+              <span class="tool-tag">编辑</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tool-card bg-gray-800/50 rounded-2xl p-6 border border-gray-700 cursor-pointer" data-tool="fontPreview" data-category="design">
+          <div class="tool-card-content">
+            <div class="text-secondary text-3xl mb-4">
+              <i class="fa fa-font"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-white">字体预览对比器</h3>
+            <p class="text-gray-400 mb-4">预览和对比不同字体，找到最适合的字体组合</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tool-tag">字体</span>
+              <span class="tool-tag">预览</span>
+              <span class="tool-tag">对比</span>
+            </div>
           </div>
         </div>
 
         <!-- 生产力工具 -->
         <div class="tool-card bg-gray-800/50 rounded-2xl p-6 border border-gray-700 cursor-pointer" data-tool="passwordGenerator" data-category="productivity">
-          <div class="text-accent text-3xl mb-4">
-            <i class="fa fa-key"></i>
-          </div>
-          <h3 class="text-xl font-semibold mb-3 text-white">密码生成器</h3>
-          <p class="text-gray-400 mb-4">生成强密码，保护您的在线账户安全</p>
-          <div class="flex flex-wrap gap-2">
-            <span class="tool-tag">密码</span>
-            <span class="tool-tag">安全</span>
-            <span class="tool-tag">生成</span>
+          <div class="tool-card-content">
+            <div class="text-accent text-3xl mb-4">
+              <i class="fa fa-key"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-white">密码生成器</h3>
+            <p class="text-gray-400 mb-4">生成强密码，保护您的在线账户安全</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tool-tag">密码</span>
+              <span class="tool-tag">安全</span>
+              <span class="tool-tag">生成</span>
+            </div>
           </div>
         </div>
 
         <div class="tool-card bg-gray-800/50 rounded-2xl p-6 border border-gray-700 cursor-pointer" data-tool="textTool" data-category="productivity">
-          <div class="text-accent text-3xl mb-4">
-            <i class="fa fa-file-text"></i>
+          <div class="tool-card-content">
+            <div class="text-accent text-3xl mb-4">
+              <i class="fa fa-file-text"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-white">文本工具</h3>
+            <p class="text-gray-400 mb-4">文本转换、处理和分析工具</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tool-tag">文本</span>
+              <span class="tool-tag">转换</span>
+              <span class="tool-tag">处理</span>
+            </div>
           </div>
-          <h3 class="text-xl font-semibold mb-3 text-white">文本工具</h3>
-          <p class="text-gray-400 mb-4">文本转换、处理和分析工具</p>
-          <div class="flex flex-wrap gap-2">
-            <span class="tool-tag">文本</span>
-            <span class="tool-tag">转换</span>
-            <span class="tool-tag">处理</span>
+        </div>
+
+        <div class="tool-card bg-gray-800/50 rounded-2xl p-6 border border-gray-700 cursor-pointer" data-tool="batchTextProcessor" data-category="productivity">
+          <div class="tool-card-content">
+            <div class="text-accent text-3xl mb-4">
+              <i class="fa fa-files-o"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-white">批量文本处理工具</h3>
+            <p class="text-gray-400 mb-4">批量处理文本数据，支持多种转换和格式化操作</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tool-tag">批量</span>
+              <span class="tool-tag">文本</span>
+              <span class="tool-tag">处理</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tool-card bg-gray-800/50 rounded-2xl p-6 border border-gray-700 cursor-pointer" data-tool="countdownTimer" data-category="productivity">
+          <div class="tool-card-content">
+            <div class="text-accent text-3xl mb-4">
+              <i class="fa fa-clock-o"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-white">定时任务倒计时工具</h3>
+            <p class="text-gray-400 mb-4">设置倒计时，管理定时任务和提醒</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tool-tag">倒计时</span>
+              <span class="tool-tag">定时</span>
+              <span class="tool-tag">提醒</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tool-card bg-gray-800/50 rounded-2xl p-6 border border-gray-700 cursor-pointer" data-tool="qrCodeGenerator" data-category="productivity">
+          <div class="tool-card-content">
+            <div class="text-accent text-3xl mb-4">
+              <i class="fa fa-qrcode"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-white">二维码/条形码生成器</h3>
+            <p class="text-gray-400 mb-4">生成二维码和条形码，支持多种格式</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tool-tag">二维码</span>
+              <span class="tool-tag">条形码</span>
+              <span class="tool-tag">生成</span>
+            </div>
           </div>
         </div>
 
         <!-- 实用工具 -->
         <div class="tool-card bg-gray-800/50 rounded-2xl p-6 border border-gray-700 cursor-pointer" data-tool="timeTool" data-category="utilities">
-          <div class="text-accent text-3xl mb-4">
-            <i class="fa fa-clock-o"></i>
+          <div class="tool-card-content">
+            <div class="text-accent text-3xl mb-4">
+              <i class="fa fa-clock-o"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-white">时间工具</h3>
+            <p class="text-gray-400 mb-4">时间戳转换、倒计时和时间显示工具</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tool-tag">时间</span>
+              <span class="tool-tag">转换</span>
+              <span class="tool-tag">倒计时</span>
+            </div>
           </div>
-          <h3 class="text-xl font-semibold mb-3 text-white">时间工具</h3>
-          <p class="text-gray-400 mb-4">时间戳转换、倒计时和时间显示工具</p>
-          <div class="flex flex-wrap gap-2">
-            <span class="tool-tag">时间</span>
-            <span class="tool-tag">转换</span>
-            <span class="tool-tag">倒计时</span>
+        </div>
+
+        <!-- 趣味数据可视化工具 -->
+        <div class="tool-card bg-gray-800/50 rounded-2xl p-6 border border-gray-700 cursor-pointer" data-tool="funDataVisualizer" data-category="utilities">
+          <div class="tool-card-content">
+            <div class="text-primary text-3xl mb-4">
+              <i class="fa fa-pie-chart"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-white">趣味数据可视化</h3>
+            <p class="text-gray-400 mb-4">输入简单数字，生成动态的词云、环形图或折线图</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tool-tag">数据可视化</span>
+              <span class="tool-tag">词云</span>
+              <span class="tool-tag">图表</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tool-card bg-gray-800/50 rounded-2xl p-6 border border-gray-700 cursor-pointer" data-tool="randomIdeaGenerator" data-category="utilities">
+          <div class="tool-card-content">
+            <div class="text-primary text-3xl mb-4">
+              <i class="fa fa-lightbulb-o"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-white">随机创意生成器</h3>
+            <p class="text-gray-400 mb-4">生成随机创意和灵感，激发你的创造力</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tool-tag">创意</span>
+              <span class="tool-tag">随机</span>
+              <span class="tool-tag">灵感</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tool-card bg-gray-800/50 rounded-2xl p-6 border border-gray-700 cursor-pointer" data-tool="asciiArtGenerator" data-category="utilities">
+          <div class="tool-card-content">
+            <div class="text-primary text-3xl mb-4">
+              <i class="fa fa-font"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-white">ASCII艺术生成器</h3>
+            <p class="text-gray-400 mb-4">将文字转换为ASCII艺术，创建独特的文本图形</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tool-tag">ASCII</span>
+              <span class="tool-tag">艺术</span>
+              <span class="tool-tag">文本</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tool-card bg-gray-800/50 rounded-2xl p-6 border border-gray-700 cursor-pointer" data-tool="dynamicTextGenerator" data-category="utilities">
+          <div class="tool-card-content">
+            <div class="text-primary text-3xl mb-4">
+              <i class="fa fa-text-height"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-white">动态文字生成器</h3>
+            <p class="text-gray-400 mb-4">生成带有动画效果的文字，为你的设计增添活力</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tool-tag">动态</span>
+              <span class="tool-tag">文字</span>
+              <span class="tool-tag">动画</span>
+            </div>
           </div>
         </div>
       </div>
@@ -454,7 +846,7 @@
       </div>
       <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
         <p class="text-gray-500 mb-4 md:mb-0">
-          &copy; 2026 常数空间. 保留所有权利.
+          &copy; 2026 常数空间 | UNI工作室. 保留所有权利.
         </p>
         <div class="flex space-x-6">
           <a href="#" class="text-gray-500 hover:text-gray-400 transition-colors">隐私政策</a>
@@ -467,85 +859,63 @@
 
   <!-- JavaScript -->
   <script>
-    // 工具过滤功能
-    function filterTools(category) {
-      const toolCards = document.querySelectorAll('.tool-card');
-      toolCards.forEach(card => {
-        if (category === 'all' || card.dataset.category === category) {
-          card.style.display = 'block';
-          // 添加淡入动画
-          card.classList.remove('fade-in');
-          void card.offsetWidth; // 触发重排
-          card.classList.add('fade-in');
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    }
 
-    // 工具选择功能
-    function selectTool(toolName) {
-      let content = '';
-      
-      switch(toolName) {
-        case 'jsonFormatter':
-          content = `
-            <div class="max-w-4xl mx-auto">
-              <h2 class="text-3xl font-bold text-white mb-8">JSON格式化工具</h2>
-              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div>
-                  <label class="block text-gray-300 mb-2 font-medium">输入JSON</label>
-                  <textarea id="jsonInput" class="code-editor w-full" placeholder="在此输入JSON数据...">{"name": "常数空间", "version": "1.0.0", "description": "实用工具合集", "tools": ["JSON格式化", "代码编辑器", "正则表达式测试器"]}</textarea>
-                </div>
-                <div>
-                  <label class="block text-gray-300 mb-2 font-medium">格式化结果</label>
-                  <pre id="jsonOutput" class="result-area w-full">点击格式化按钮查看结果</pre>
-                </div>
-              </div>
-              <div class="tool-actions mt-6 flex gap-4">
-                <button onclick="formatJSON()" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect">
-                  <i class="fa fa-indent mr-2"></i>格式化
-                </button>
-                <button onclick="minifyJSON()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect">
-                  <i class="fa fa-compress mr-2"></i>压缩
-                </button>
-                <button onclick="clearJSON()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect">
-                  <i class="fa fa-trash mr-2"></i>清空
-                </button>
-                <button onclick="copyJSON()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect">
-                  <i class="fa fa-copy mr-2"></i>复制
-                </button>
-              </div>
+    // 工具内容缓存
+    const toolContents = {
+      jsonFormatter: `
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-white mb-8">JSON格式化工具</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">输入JSON</label>
+              <textarea id="jsonInput" class="code-editor w-full" placeholder="在此输入JSON数据...">{"name": "常数空间", "version": "1.0.0", "description": "实用工具合集", "tools": ["JSON格式化", "代码编辑器", "正则表达式测试器"]}</textarea>
             </div>
-          `;
-          break;
-          
-        case 'codeEditor':
-          content = `
-            <div class="max-w-4xl mx-auto">
-              <h2 class="text-3xl font-bold text-white mb-8">代码编辑器</h2>
-              <div class="mb-6 flex flex-wrap gap-4">
-                <div>
-                  <label class="block text-gray-400 mb-1 text-sm">语言</label>
-                  <select id="codeLanguage" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2">
-                    <option value="javascript">JavaScript</option>
-                    <option value="python">Python</option>
-                    <option value="html">HTML</option>
-                    <option value="css">CSS</option>
-                  </select>
-                </div>
-                <div>
-                  <label class="block text-gray-400 mb-1 text-sm">主题</label>
-                  <select id="codeTheme" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2">
-                    <option value="dark">深色</option>
-                    <option value="light">浅色</option>
-                  </select>
-                </div>
-              </div>
-              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div>
-                  <label class="block text-gray-300 mb-2 font-medium">代码编辑</label>
-                  <textarea id="codeInput" class="code-editor w-full" placeholder="在此输入代码...">// JavaScript示例
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">格式化结果</label>
+              <pre id="jsonOutput" class="result-area w-full">点击格式化按钮查看结果</pre>
+            </div>
+          </div>
+          <div class="tool-actions mt-6 flex flex-wrap gap-3">
+            <button onclick="formatJSON()" class="bg-gradient-primary text-white px-4 sm:px-5 py-2.5 rounded-lg btn-effect flex-1 sm:flex-none">
+              <i class="fa fa-indent mr-2"></i>格式化
+            </button>
+            <button onclick="minifyJSON()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-4 sm:px-5 py-2.5 rounded-lg btn-effect flex-1 sm:flex-none">
+              <i class="fa fa-compress mr-2"></i>压缩
+            </button>
+            <button onclick="clearJSON()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-4 sm:px-5 py-2.5 rounded-lg btn-effect flex-1 sm:flex-none">
+              <i class="fa fa-trash mr-2"></i>清空
+            </button>
+            <button onclick="copyJSON()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-4 sm:px-5 py-2.5 rounded-lg btn-effect flex-1 sm:flex-none">
+              <i class="fa fa-copy mr-2"></i>复制
+            </button>
+          </div>
+        </div>
+      `,
+      codeEditor: `
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-white mb-8">代码编辑器</h2>
+          <div class="mb-6 flex flex-wrap gap-4">
+            <div>
+              <label class="block text-gray-400 mb-1 text-sm">语言</label>
+              <select id="codeLanguage" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2">
+                <option value="javascript">JavaScript</option>
+                <option value="python">Python</option>
+                <option value="html">HTML</option>
+                <option value="css">CSS</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-gray-400 mb-1 text-sm">主题</label>
+              <select id="codeTheme" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2">
+                <option value="dark">深色</option>
+                <option value="light">浅色</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">代码编辑</label>
+              <textarea id="codeInput" class="code-editor w-full" placeholder="在此输入代码...">// JavaScript示例
 function greet(name) {
   return "Hello, " + name + "! Welcome to 常数空间";
 }
@@ -564,193 +934,184 @@ console.log('斐波那契数列前10项:');
 for (let i = 0; i < 10; i++) {
   console.log("fib(" + i + ") = " + fibonacci(i));
 }</textarea>
-                </div>
-                <div>
-                  <label class="block text-gray-300 mb-2 font-medium">运行结果</label>
-                  <pre id="codeOutput" class="result-area w-full">点击运行按钮查看结果</pre>
-                </div>
-              </div>
-              <div class="tool-actions mt-6 flex gap-4">
-                <button onclick="runCode()" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect">
-                  <i class="fa fa-play mr-2"></i>运行
-                </button>
-                <button onclick="clearCode()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect">
-                  <i class="fa fa-trash mr-2"></i>清空
-                </button>
-                <button onclick="copyCode()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect">
-                  <i class="fa fa-copy mr-2"></i>复制结果
-                </button>
+            </div>
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">运行结果</label>
+              <pre id="codeOutput" class="result-area w-full">点击运行按钮查看结果</pre>
+            </div>
+          </div>
+          <div class="tool-actions mt-6 flex flex-wrap gap-3">
+            <button onclick="runCode()" class="bg-gradient-primary text-white px-4 sm:px-5 py-2.5 rounded-lg btn-effect flex-1 sm:flex-none">
+              <i class="fa fa-play mr-2"></i>运行
+            </button>
+            <button onclick="clearCode()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-4 sm:px-5 py-2.5 rounded-lg btn-effect flex-1 sm:flex-none">
+              <i class="fa fa-trash mr-2"></i>清空
+            </button>
+            <button onclick="copyCode()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-4 sm:px-5 py-2.5 rounded-lg btn-effect flex-1 sm:flex-none">
+              <i class="fa fa-copy mr-2"></i>复制结果
+            </button>
+          </div>
+        </div>
+      `,
+      regexTester: `
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-white mb-8">正则表达式测试器</h2>
+          <div class="mb-6">
+            <label class="block text-gray-300 mb-2 font-medium">正则表达式</label>
+            <div class="flex gap-2">
+              <input type="text" id="regexPattern" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 flex-1" placeholder="输入正则表达式..." value="\\b\\w+@\\w+\\.\\w+\\b">
+              <div class="flex items-center gap-4">
+                <label class="flex items-center gap-2">
+                  <input type="checkbox" id="regexGlobal" class="rounded text-primary">
+                  <span class="text-gray-300">全局匹配</span>
+                </label>
+                <label class="flex items-center gap-2">
+                  <input type="checkbox" id="regexIgnoreCase" class="rounded text-primary">
+                  <span class="text-gray-300">忽略大小写</span>
+                </label>
               </div>
             </div>
-          `;
-          break;
-          
-        case 'regexTester':
-          content = `
-            <div class="max-w-4xl mx-auto">
-              <h2 class="text-3xl font-bold text-white mb-8">正则表达式测试器</h2>
-              <div class="mb-6">
-                <label class="block text-gray-300 mb-2 font-medium">正则表达式</label>
-                <div class="flex gap-2">
-                  <input type="text" id="regexPattern" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 flex-1" placeholder="输入正则表达式..." value="\\b\\w+@\\w+\\.\\w+\\b">
-                  <div class="flex items-center gap-4">
-                    <label class="flex items-center gap-2">
-                      <input type="checkbox" id="regexGlobal" class="rounded text-primary">
-                      <span class="text-gray-300">全局匹配</span>
-                    </label>
-                    <label class="flex items-center gap-2">
-                      <input type="checkbox" id="regexIgnoreCase" class="rounded text-primary">
-                      <span class="text-gray-300">忽略大小写</span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div>
-                  <label class="block text-gray-300 mb-2 font-medium">测试文本</label>
-                  <textarea id="regexTestText" class="code-editor w-full" placeholder="在此输入测试文本...">联系我们：
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">测试文本</label>
+              <textarea id="regexTestText" class="code-editor w-full" placeholder="在此输入测试文本...">联系我们：
 邮箱：admin@example.com
 电话：123-456-7890
 备用邮箱：support@test.org
 网站：https://www.example.com</textarea>
+            </div>
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">匹配结果</label>
+              <pre id="regexResults" class="result-area w-full">输入正则表达式和测试文本，然后点击测试按钮</pre>
+            </div>
+          </div>
+          <div class="tool-actions mt-6 flex flex-wrap gap-3">
+            <button onclick="testRegex()" class="bg-gradient-primary text-white px-4 sm:px-5 py-2.5 rounded-lg btn-effect flex-1 sm:flex-none">
+              <i class="fa fa-search mr-2"></i>测试
+            </button>
+            <button onclick="clearRegex()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-4 sm:px-5 py-2.5 rounded-lg btn-effect flex-1 sm:flex-none">
+              <i class="fa fa-trash mr-2"></i>清空
+            </button>
+            <button onclick="copyRegexResults()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-4 sm:px-5 py-2.5 rounded-lg btn-effect flex-1 sm:flex-none">
+              <i class="fa fa-copy mr-2"></i>复制结果
+            </button>
+          </div>
+        </div>
+      `,
+      colorPicker: `
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-white mb-8">颜色选择器</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">选择颜色</label>
+              <div class="flex gap-4">
+                <input type="color" id="colorInput" class="w-20 h-20 rounded-lg cursor-pointer" value="#165DFF">
+                <div class="flex-1">
+                  <div class="mb-3">
+                    <label class="block text-gray-400 mb-1 text-sm">HEX</label>
+                    <input type="text" id="colorHex" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full" value="#165DFF">
+                  </div>
+                  <div class="mb-3">
+                    <label class="block text-gray-400 mb-1 text-sm">RGB</label>
+                    <input type="text" id="colorRgb" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full" value="rgb(22, 93, 255)">
+                  </div>
+                  <div>
+                    <label class="block text-gray-400 mb-1 text-sm">HSL</label>
+                    <input type="text" id="colorHsl" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full" value="hsl(224, 100%, 54%)">
+                  </div>
                 </div>
-                <div>
-                  <label class="block text-gray-300 mb-2 font-medium">匹配结果</label>
-                  <pre id="regexResults" class="result-area w-full">输入正则表达式和测试文本，然后点击测试按钮</pre>
-                </div>
-              </div>
-              <div class="tool-actions mt-6 flex gap-4">
-                <button onclick="testRegex()" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect">
-                  <i class="fa fa-search mr-2"></i>测试
-                </button>
-                <button onclick="clearRegex()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect">
-                  <i class="fa fa-trash mr-2"></i>清空
-                </button>
-                <button onclick="copyRegexResults()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect">
-                  <i class="fa fa-copy mr-2"></i>复制结果
-                </button>
               </div>
             </div>
-          `;
-          break;
-          
-        case 'colorPicker':
-          content = `
-            <div class="max-w-4xl mx-auto">
-              <h2 class="text-3xl font-bold text-white mb-8">颜色选择器</h2>
-              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div>
-                  <label class="block text-gray-300 mb-2 font-medium">选择颜色</label>
-                  <div class="flex items-center gap-4">
-                    <input type="color" id="colorInput" class="w-20 h-20 rounded-lg cursor-pointer" value="#165DFF">
-                    <div class="flex-1">
-                      <div class="mb-3">
-                        <label class="block text-gray-400 mb-1 text-sm">HEX</label>
-                        <input type="text" id="colorHex" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full" value="#165DFF">
-                      </div>
-                      <div class="mb-3">
-                        <label class="block text-gray-400 mb-1 text-sm">RGB</label>
-                        <input type="text" id="colorRgb" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full" value="rgb(22, 93, 255)">
-                      </div>
-                      <div>
-                        <label class="block text-gray-400 mb-1 text-sm">HSL</label>
-                        <input type="text" id="colorHsl" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full" value="hsl(224, 100%, 54%)">
-                      </div>
-                    </div>
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">颜色预览</label>
+              <div class="bg-gray-900 p-6 rounded-lg">
+                <div id="colorPreview" class="w-full h-40 rounded-lg mb-6" style="background-color: #165DFF;"></div>
+                <div class="grid grid-cols-3 gap-4">
+                  <div class="text-center">
+                    <div class="w-full h-16 rounded-lg mb-2" style="background-color: #165DFF;"></div>
+                    <p class="text-gray-400 text-sm">正常</p>
+                  </div>
+                  <div class="text-center">
+                    <div class="w-full h-16 rounded-lg mb-2" style="background-color: #165DFF; opacity: 0.7;"></div>
+                    <p class="text-gray-400 text-sm">70% 不透明度</p>
+                  </div>
+                  <div class="text-center">
+                    <div class="w-full h-16 rounded-lg mb-2" style="background-color: #165DFF; opacity: 0.5;"></div>
+                    <p class="text-gray-400 text-sm">50% 不透明度</p>
                   </div>
                 </div>
-                <div>
-                  <label class="block text-gray-300 mb-2 font-medium">颜色预览</label>
-                  <div class="bg-gray-900 p-6 rounded-lg">
-                    <div id="colorPreview" class="w-full h-40 rounded-lg mb-6" style="background-color: #165DFF;"></div>
-                    <div class="grid grid-cols-3 gap-4">
-                      <div class="text-center">
-                        <div class="w-full h-16 rounded-lg mb-2" style="background-color: #165DFF;"></div>
-                        <p class="text-gray-400 text-sm">正常</p>
-                      </div>
-                      <div class="text-center">
-                        <div class="w-full h-16 rounded-lg mb-2" style="background-color: #165DFF; opacity: 0.7;"></div>
-                        <p class="text-gray-400 text-sm">70% 不透明度</p>
-                      </div>
-                      <div class="text-center">
-                        <div class="w-full h-16 rounded-lg mb-2" style="background-color: #165DFF; opacity: 0.5;"></div>
-                        <p class="text-gray-400 text-sm">50% 不透明度</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="tool-actions mt-6 flex gap-4">
-                <button onclick="randomColor()" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect">
-                  <i class="fa fa-random mr-2"></i>随机颜色
-                </button>
-                <button onclick="copyColor()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect">
-                  <i class="fa fa-copy mr-2"></i>复制HEX
-                </button>
               </div>
             </div>
-          `;
-          break;
-          
-        case 'animationTool':
-          content = `
-            <div class="max-w-4xl mx-auto">
-              <h2 class="text-3xl font-bold text-white mb-8">动画工具</h2>
-              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          </div>
+          <div class="tool-actions mt-6 flex flex-wrap gap-3">
+            <button onclick="randomColor()" class="bg-gradient-primary text-white px-4 sm:px-5 py-2.5 rounded-lg btn-effect flex-1 sm:flex-none">
+              <i class="fa fa-random mr-2"></i>随机颜色
+            </button>
+            <button onclick="copyColor()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-4 sm:px-5 py-2.5 rounded-lg btn-effect flex-1 sm:flex-none">
+              <i class="fa fa-copy mr-2"></i>复制HEX
+            </button>
+          </div>
+        </div>
+      `,
+      animationTool: `
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-white mb-8">动画工具</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">动画预览</label>
+              <div class="bg-gray-900 p-8 rounded-lg flex items-center justify-center">
+                <div id="animationElement" class="w-20 h-20 bg-primary rounded-lg flex items-center justify-center">
+                  <i class="fa fa-bolt text-white text-2xl"></i>
+                </div>
+              </div>
+              <div class="mt-6 space-y-4">
                 <div>
-                  <label class="block text-gray-300 mb-2 font-medium">动画预览</label>
-                  <div class="bg-gray-900 p-8 rounded-lg flex items-center justify-center">
-                    <div id="animationElement" class="w-20 h-20 bg-primary rounded-lg flex items-center justify-center">
-                      <i class="fa fa-bolt text-white text-2xl"></i>
-                    </div>
-                  </div>
-                  <div class="mt-6 space-y-4">
-                    <div>
-                      <label class="block text-gray-400 mb-1 text-sm">动画类型</label>
-                      <div class="grid grid-cols-3 gap-2">
-                        <button onclick="setAnimation('bounce')" class="bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white px-4 py-2 rounded-lg btn-effect">
-                          弹跳
-                        </button>
-                        <button onclick="setAnimation('pulse')" class="bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white px-4 py-2 rounded-lg btn-effect">
-                          脉冲
-                        </button>
-                        <button onclick="setAnimation('spin')" class="bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white px-4 py-2 rounded-lg btn-effect">
-                          旋转
-                        </button>
-                        <button onclick="setAnimation('fade')" class="bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white px-4 py-2 rounded-lg btn-effect">
-                          淡入淡出
-                        </button>
-                        <button onclick="setAnimation('slide')" class="bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white px-4 py-2 rounded-lg btn-effect">
-                          滑动
-                        </button>
-                        <button onclick="setAnimation('scale')" class="bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white px-4 py-2 rounded-lg btn-effect">
-                          缩放
-                        </button>
-                      </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                      <div>
-                        <label class="block text-gray-400 mb-1 text-sm">动画速度 (ms)</label>
-                        <input type="range" id="animationSpeed" min="100" max="2000" value="1000" class="w-full">
-                      </div>
-                      <div>
-                        <label class="block text-gray-400 mb-1 text-sm">延迟 (ms)</label>
-                        <input type="range" id="animationDelay" min="0" max="1000" value="0" class="w-full">
-                      </div>
-                    </div>
-                    <div class="flex gap-4">
-                      <button onclick="startAnimation()" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect">
-                        <i class="fa fa-play mr-2"></i>开始动画
-                      </button>
-                      <button onclick="stopAnimation()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect">
-                        <i class="fa fa-stop mr-2"></i>停止动画
-                      </button>
-                    </div>
+                  <label class="block text-gray-400 mb-1 text-sm">动画类型</label>
+                  <div class="grid grid-cols-3 gap-2">
+                    <button onclick="setAnimation('bounce')" class="bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white px-4 py-2 rounded-lg btn-effect">
+                      弹跳
+                    </button>
+                    <button onclick="setAnimation('pulse')" class="bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white px-4 py-2 rounded-lg btn-effect">
+                      脉冲
+                    </button>
+                    <button onclick="setAnimation('spin')" class="bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white px-4 py-2 rounded-lg btn-effect">
+                      旋转
+                    </button>
+                    <button onclick="setAnimation('fade')" class="bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white px-4 py-2 rounded-lg btn-effect">
+                      淡入淡出
+                    </button>
+                    <button onclick="setAnimation('slide')" class="bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white px-4 py-2 rounded-lg btn-effect">
+                      滑动
+                    </button>
+                    <button onclick="setAnimation('scale')" class="bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white px-4 py-2 rounded-lg btn-effect">
+                      缩放
+                    </button>
                   </div>
                 </div>
-                <div>
-                  <label class="block text-gray-300 mb-2 font-medium">CSS代码</label>
-                  <pre id="animationCode" class="result-area w-full">@keyframes bounce {
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-gray-400 mb-1 text-sm">动画速度 (ms)</label>
+                    <input type="range" id="animationSpeed" min="100" max="2000" value="1000" class="w-full">
+                  </div>
+                  <div>
+                    <label class="block text-gray-400 mb-1 text-sm">延迟 (ms)</label>
+                    <input type="range" id="animationDelay" min="0" max="1000" value="0" class="w-full">
+                  </div>
+                </div>
+                <div class="flex gap-4">
+                  <button onclick="startAnimation()" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect">
+                    <i class="fa fa-play mr-2"></i>开始动画
+                  </button>
+                  <button onclick="stopAnimation()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect">
+                    <i class="fa fa-stop mr-2"></i>停止动画
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">CSS代码</label>
+              <pre id="animationCode" class="result-area w-full">@keyframes bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-20px); }
 }
@@ -758,72 +1119,69 @@ for (let i = 0; i < 10; i++) {
 .animated {
   animation: bounce 1000ms ease-in-out 0ms infinite;
 }</pre>
-                  <div class="mt-6">
-                    <button onclick="copyAnimationCode()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect w-full">
-                      <i class="fa fa-copy mr-2"></i>复制CSS代码
-                    </button>
-                  </div>
-                </div>
+              <div class="mt-6">
+                <button onclick="copyAnimationCode()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-copy mr-2"></i>复制CSS代码
+                </button>
               </div>
             </div>
-          `;
-          break;
-          
-        case 'chartGenerator':
-          content = `
-            <div class="max-w-4xl mx-auto">
-              <h2 class="text-3xl font-bold text-white mb-8">图表生成器</h2>
-              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          </div>
+        </div>
+      `,
+      chartGenerator: `
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-white mb-8">图表生成器</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">图表配置</label>
+              <div class="space-y-4">
                 <div>
-                  <label class="block text-gray-300 mb-2 font-medium">图表配置</label>
-                  <div class="space-y-4">
-                    <div>
-                      <label class="block text-gray-400 mb-1 text-sm">图表类型</label>
-                      <select id="chartType" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full">
-                        <option value="bar">柱状图</option>
-                        <option value="line">折线图</option>
-                        <option value="pie">饼图</option>
-                        <option value="doughnut">环形图</option>
-                        <option value="radar">雷达图</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label class="block text-gray-400 mb-1 text-sm">图表标题</label>
-                      <input type="text" id="chartTitle" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full" value="销售数据">
-                    </div>
-                    <div>
-                      <label class="block text-gray-400 mb-1 text-sm">标签 (逗号分隔)</label>
-                      <input type="text" id="chartLabels" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full" value="一月,二月,三月,四月,五月">
-                    </div>
-                    <div>
-                      <label class="block text-gray-400 mb-1 text-sm">数据 (逗号分隔)</label>
-                      <input type="text" id="chartData" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full" value="12, 19, 3, 5, 2">
-                    </div>
-                    <div>
-                      <label class="block text-gray-400 mb-1 text-sm">背景颜色</label>
-                      <select id="chartBackground" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full">
-                        <option value="'rgba(22, 93, 255, 0.7)'">蓝色</option>
-                        <option value="'rgba(123, 97, 255, 0.7)'">紫色</option>
-                        <option value="'rgba(255, 97, 191, 0.7)'">粉色</option>
-                        <option value="'rgba(16, 185, 129, 0.7)'">绿色</option>
-                        <option value="'rgba(245, 158, 11, 0.7)'">橙色</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="mt-6">
-                    <button onclick="generateChart()" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect w-full">
-                      <i class="fa fa-bar-chart mr-2"></i>生成图表
-                    </button>
-                  </div>
+                  <label class="block text-gray-400 mb-1 text-sm">图表类型</label>
+                  <select id="chartType" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full">
+                    <option value="bar">柱状图</option>
+                    <option value="line">折线图</option>
+                    <option value="pie">饼图</option>
+                    <option value="doughnut">环形图</option>
+                    <option value="radar">雷达图</option>
+                  </select>
                 </div>
                 <div>
-                  <label class="block text-gray-300 mb-2 font-medium">图表预览</label>
-                  <div class="bg-gray-900 p-6 rounded-lg">
-                    <canvas id="chartCanvas" width="400" height="300"></canvas>
-                  </div>
-                  <div class="mt-6">
-                    <label class="block text-gray-300 mb-2 font-medium">HTML代码</label>
-                    <pre id="chartHtmlCode" class="result-area w-full">&lt;canvas id="chartCanvas" width="400" height="300"&gt;&lt;/canvas&gt;
+                  <label class="block text-gray-400 mb-1 text-sm">图表标题</label>
+                  <input type="text" id="chartTitle" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full" value="销售数据">
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">标签 (逗号分隔)</label>
+                  <input type="text" id="chartLabels" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full" value="一月,二月,三月,四月,五月">
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">数据 (逗号分隔)</label>
+                  <input type="text" id="chartData" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full" value="12, 19, 3, 5, 2">
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">背景颜色</label>
+                  <select id="chartBackground" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full">
+                    <option value="'rgba(22, 93, 255, 0.7)'">蓝色</option>
+                    <option value="'rgba(123, 97, 255, 0.7)'">紫色</option>
+                    <option value="'rgba(255, 97, 191, 0.7)'">粉色</option>
+                    <option value="'rgba(16, 185, 129, 0.7)'">绿色</option>
+                    <option value="'rgba(245, 158, 11, 0.7)'">橙色</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mt-6">
+                <button onclick="generateChart()" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-bar-chart mr-2"></i>生成图表
+                </button>
+              </div>
+            </div>
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">图表预览</label>
+              <div class="bg-gray-900 p-6 rounded-lg">
+                <canvas id="chartCanvas" width="400" height="300"></canvas>
+              </div>
+              <div class="mt-6">
+                <label class="block text-gray-300 mb-2 font-medium">HTML代码</label>
+                <pre id="chartHtmlCode" class="result-area w-full">&lt;canvas id="chartCanvas" width="400" height="300"&gt;&lt;/canvas&gt;
 
 &lt;script&gt;
 const ctx = document.getElementById('chartCanvas').getContext('2d');
@@ -845,259 +1203,1768 @@ const chart = new Chart(ctx, {
   }
 });
 &lt;/script&gt;</pre>
+              </div>
+              <div class="mt-6">
+                <button onclick="copyChartCode()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-copy mr-2"></i>复制HTML代码
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      passwordGenerator: `
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-white mb-8">密码生成器</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">密码配置</label>
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">密码长度</label>
+                  <div class="flex items-center gap-4">
+                    <input type="range" id="passwordLength" min="8" max="32" value="16" class="w-full">
+                    <span id="lengthValue" class="text-gray-300 font-medium min-w-[3rem]">16</span>
                   </div>
-                  <div class="mt-6">
-                    <button onclick="copyChartCode()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect w-full">
-                      <i class="fa fa-copy mr-2"></i>复制HTML代码
-                    </button>
+                </div>
+                <div class="space-y-2">
+                  <label class="flex items-center gap-2">
+                    <input type="checkbox" id="includeUppercase" class="rounded text-primary" checked>
+                    <span class="text-gray-300">包含大写字母 (A-Z)</span>
+                  </label>
+                  <label class="flex items-center gap-2">
+                    <input type="checkbox" id="includeLowercase" class="rounded text-primary" checked>
+                    <span class="text-gray-300">包含小写字母 (a-z)</span>
+                  </label>
+                  <label class="flex items-center gap-2">
+                    <input type="checkbox" id="includeNumbers" class="rounded text-primary" checked>
+                    <span class="text-gray-300">包含数字 (0-9)</span>
+                  </label>
+                  <label class="flex items-center gap-2">
+                    <input type="checkbox" id="includeSymbols" class="rounded text-primary" checked>
+                    <span class="text-gray-300">包含符号 (!@#$%^&*)</span>
+                  </label>
+                  <label class="flex items-center gap-2">
+                    <input type="checkbox" id="excludeSimilar" class="rounded text-primary">
+                    <span class="text-gray-300">排除相似字符 (1, l, I, 0, O)</span>
+                  </label>
+                </div>
+              </div>
+              <div class="mt-6 space-y-4">
+                <button onclick="generatePassword()" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-key mr-2"></i>生成密码
+                </button>
+                <button onclick="regeneratePassword()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-refresh mr-2"></i>重新生成
+                </button>
+                <button onclick="copyPassword()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-copy mr-2"></i>复制密码
+                </button>
+              </div>
+            </div>
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">生成的密码</label>
+              <div class="bg-gray-900 p-6 rounded-lg mb-6">
+                <div id="generatedPassword" class="text-xl font-mono mb-4">点击生成按钮创建密码</div>
+                <div class="mb-6">
+                  <label class="block text-gray-400 mb-1 text-sm">密码强度</label>
+                  <div class="h-3 bg-gray-700 rounded-full overflow-hidden mb-2">
+                    <div id="strengthBar" class="h-full bg-gray-600 w-0 transition-all duration-300"></div>
                   </div>
+                  <div class="flex justify-between text-xs text-gray-400">
+                    <span>弱</span>
+                    <span>中</span>
+                    <span>强</span>
+                  </div>
+                </div>
+                <div class="bg-gray-800/50 p-4 rounded-lg text-sm text-gray-300">
+                  <h4 class="font-medium mb-2 text-white">密码建议</h4>
+                  <ul class="list-disc pl-5 space-y-1">
+                    <li>使用至少16个字符的密码</li>
+                    <li>包含大小写字母、数字和符号</li>
+                    <li>避免使用常见单词和短语</li>
+                    <li>为不同账号使用不同密码</li>
+                    <li>定期更换密码</li>
+                  </ul>
                 </div>
               </div>
             </div>
-          `;
-          break;
-          
-        case 'passwordGenerator':
-          content = `
-            <div class="max-w-4xl mx-auto">
-              <h2 class="text-3xl font-bold text-white mb-8">密码生成器</h2>
-              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div>
-                  <label class="block text-gray-300 mb-2 font-medium">密码配置</label>
-                  <div class="space-y-4">
-                    <div>
-                      <label class="block text-gray-400 mb-1 text-sm">密码长度</label>
-                      <div class="flex items-center gap-4">
-                        <input type="range" id="passwordLength" min="8" max="32" value="16" class="w-full">
-                        <span id="lengthValue" class="text-gray-300 font-medium min-w-[3rem]">16</span>
-                      </div>
-                    </div>
-                    <div class="space-y-2">
-                      <label class="flex items-center gap-2">
-                        <input type="checkbox" id="includeUppercase" class="rounded text-primary" checked>
-                        <span class="text-gray-300">包含大写字母 (A-Z)</span>
-                      </label>
-                      <label class="flex items-center gap-2">
-                        <input type="checkbox" id="includeLowercase" class="rounded text-primary" checked>
-                        <span class="text-gray-300">包含小写字母 (a-z)</span>
-                      </label>
-                      <label class="flex items-center gap-2">
-                        <input type="checkbox" id="includeNumbers" class="rounded text-primary" checked>
-                        <span class="text-gray-300">包含数字 (0-9)</span>
-                      </label>
-                      <label class="flex items-center gap-2">
-                        <input type="checkbox" id="includeSymbols" class="rounded text-primary" checked>
-                        <span class="text-gray-300">包含符号 (!@#$%^&*)</span>
-                      </label>
-                      <label class="flex items-center gap-2">
-                        <input type="checkbox" id="excludeSimilar" class="rounded text-primary">
-                        <span class="text-gray-300">排除相似字符 (1, l, I, 0, O)</span>
-                      </label>
-                    </div>
-                  </div>
-                  <div class="mt-6 space-y-4">
-                    <button onclick="generatePassword()" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect w-full">
-                      <i class="fa fa-key mr-2"></i>生成密码
-                    </button>
-                    <button onclick="regeneratePassword()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect w-full">
-                      <i class="fa fa-refresh mr-2"></i>重新生成
-                    </button>
-                    <button onclick="copyPassword()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect w-full">
-                      <i class="fa fa-copy mr-2"></i>复制密码
-                    </button>
-                  </div>
-                </div>
-                <div>
-                  <label class="block text-gray-300 mb-2 font-medium">生成的密码</label>
-                  <div class="bg-gray-900 p-6 rounded-lg mb-6">
-                    <div id="generatedPassword" class="text-xl font-mono mb-4">点击生成按钮创建密码</div>
-                    <div class="mb-6">
-                      <label class="block text-gray-400 mb-1 text-sm">密码强度</label>
-                      <div class="h-3 bg-gray-700 rounded-full overflow-hidden mb-2">
-                        <div id="strengthBar" class="h-full bg-gray-600 w-0 transition-all duration-300"></div>
-                      </div>
-                      <div class="flex justify-between text-xs text-gray-400">
-                        <span>弱</span>
-                        <span>中</span>
-                        <span>强</span>
-                      </div>
-                    </div>
-                    <div class="bg-gray-800/50 p-4 rounded-lg text-sm text-gray-300">
-                      <h4 class="font-medium mb-2 text-white">密码建议</h4>
-                      <ul class="list-disc pl-5 space-y-1">
-                        <li>使用至少16个字符的密码</li>
-                        <li>包含大小写字母、数字和符号</li>
-                        <li>避免使用常见单词和短语</li>
-                        <li>为不同账号使用不同密码</li>
-                        <li>定期更换密码</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          `;
-          break;
-          
-        case 'textTool':
-          content = `
-            <div class="max-w-4xl mx-auto">
-              <h2 class="text-3xl font-bold text-white mb-8">文本工具</h2>
-              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div>
-                  <label class="block text-gray-300 mb-2 font-medium">输入文本</label>
-                  <textarea id="textInput" class="code-editor w-full" placeholder="在此输入文本...">Hello World! This is a test text for the text tool.
+          </div>
+        </div>
+      `,
+      textTool: `
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-white mb-8">文本工具</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">输入文本</label>
+              <textarea id="textInput" class="code-editor w-full" placeholder="在此输入文本...">Hello World! This is a test text for the text tool.
 
 You can use this tool to manipulate text in various ways.
 
 Try different operations below!</textarea>
+            </div>
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">操作结果</label>
+              <pre id="textOutput" class="result-area w-full">点击上方按钮查看结果</pre>
+            </div>
+          </div>
+          <div class="tool-actions mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <button onclick="textOperation('uppercase')" class="bg-gradient-primary text-white px-3 sm:px-4 py-2 rounded-lg btn-effect text-sm">
+              <i class="fa fa-text-height mr-1"></i>大写
+            </button>
+            <button onclick="textOperation('lowercase')" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-3 sm:px-4 py-2 rounded-lg btn-effect text-sm">
+              <i class="fa fa-text-height mr-1"></i>小写
+            </button>
+            <button onclick="textOperation('capitalize')" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-3 sm:px-4 py-2 rounded-lg btn-effect text-sm">
+              <i class="fa fa-font mr-1"></i>首大写
+            </button>
+            <button onclick="textOperation('reverse')" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-3 sm:px-4 py-2 rounded-lg btn-effect text-sm">
+              <i class="fa fa-exchange mr-1"></i>反转
+            </button>
+            <button onclick="textOperation('removeSpaces')" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-3 sm:px-4 py-2 rounded-lg btn-effect text-sm">
+              <i class="fa fa-eraser mr-1"></i>去空格
+            </button>
+            <button onclick="textOperation('count')" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-3 sm:px-4 py-2 rounded-lg btn-effect text-sm">
+              <i class="fa fa-list-ol mr-1"></i>统计
+            </button>
+            <button onclick="clearText()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-3 sm:px-4 py-2 rounded-lg btn-effect text-sm">
+              <i class="fa fa-trash mr-1"></i>清空
+            </button>
+            <button onclick="copyTextResult()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-3 sm:px-4 py-2 rounded-lg btn-effect text-sm">
+              <i class="fa fa-copy mr-1"></i>复制
+            </button>
+          </div>
+        </div>
+      `,
+      timeTool: `
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-white mb-8">时间工具</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">当前时间</label>
+              <div class="bg-gray-900 p-6 rounded-lg text-center mb-6">
+                <div id="currentTime" class="text-2xl font-bold text-white mb-2">2026-02-05 12:00:00</div>
+                <p class="text-gray-400">实时更新</p>
+              </div>
+              <div>
+                <label class="block text-gray-300 mb-2 font-medium">时间戳转换</label>
+                <div class="space-y-4">
+                  <div class="grid grid-cols-2 gap-4">
+                    <div>
+                      <label class="block text-gray-400 mb-1 text-sm">时间戳</label>
+                      <input type="text" id="timestampInput" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full" placeholder="输入时间戳...">
+                    </div>
+                    <div>
+                      <label class="block text-gray-400 mb-1 text-sm">转换结果</label>
+                      <input type="text" id="timestampOutput" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full" readonly placeholder="转换结果将显示在这里">
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <label class="block text-gray-300 mb-2 font-medium">操作结果</label>
-                  <pre id="textOutput" class="result-area w-full">点击上方按钮查看结果</pre>
+                <div class="tool-actions mt-6 flex gap-4">
+                  <button onclick="convertTimestamp()" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect">
+                    <i class="fa fa-exchange mr-2"></i>转换
+                  </button>
+                  <button onclick="getCurrentTimestamp()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect">
+                    <i class="fa fa-clock-o mr-2"></i>获取当前时间戳
+                  </button>
                 </div>
               </div>
-              <div class="tool-actions mt-6 flex flex-wrap gap-4">
-                <button onclick="textOperation('uppercase')" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect">
-                  <i class="fa fa-text-height mr-2"></i>转为大写
+            </div>
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">倒计时</label>
+              <div class="bg-gray-900 p-6 rounded-lg text-center mb-6">
+                <div id="countdownDisplay" class="text-3xl font-bold text-white mb-4">00:00:00</div>
+                <div class="space-y-3">
+                  <div>
+                    <label class="block text-gray-400 mb-1 text-sm">目标时间</label>
+                    <input type="datetime-local" id="countdownTarget" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full">
+                  </div>
+                </div>
+              </div>
+              <div class="tool-actions mt-6 flex gap-4">
+                <button onclick="startCountdown()" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect">
+                  <i class="fa fa-play mr-2"></i>开始倒计时
                 </button>
-                <button onclick="textOperation('lowercase')" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect">
-                  <i class="fa fa-text-height mr-2"></i>转为小写
+                <button onclick="stopCountdown()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect">
+                  <i class="fa fa-stop mr-2"></i>停止倒计时
                 </button>
-                <button onclick="textOperation('capitalize')" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect">
-                  <i class="fa fa-font mr-2"></i>首字母大写
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      funDataVisualizer: `
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-white mb-8">趣味数据可视化</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">数据配置</label>
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">可视化类型</label>
+                  <select id="visualizationType" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full">
+                    <option value="wordcloud">词云</option>
+                    <option value="doughnut">环形图</option>
+                    <option value="line">折线图</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">数据标签 (逗号分隔)</label>
+                  <input type="text" id="visualizationLabels" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full" value="苹果,香蕉,橙子,葡萄,西瓜">
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">数据值 (逗号分隔)</label>
+                  <input type="text" id="visualizationValues" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full" value="30,25,20,15,10">
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">颜色主题</label>
+                  <select id="visualizationTheme" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full">
+                    <option value="primary">蓝色主题</option>
+                    <option value="secondary">紫色主题</option>
+                    <option value="accent">粉色主题</option>
+                    <option value="rainbow">彩虹主题</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mt-6">
+                <button onclick="generateVisualization()" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-magic mr-2"></i>生成可视化
                 </button>
-                <button onclick="textOperation('reverse')" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect">
-                  <i class="fa fa-exchange mr-2"></i>反转文本
+              </div>
+            </div>
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">可视化预览</label>
+              <div class="bg-gray-900 p-6 rounded-lg">
+                <div id="visualizationContainer" class="w-full h-[400px] flex items-center justify-center">
+                  <div class="text-gray-400">点击生成按钮查看可视化效果</div>
+                </div>
+              </div>
+              <div class="mt-6">
+                <label class="block text-gray-300 mb-2 font-medium">动画效果</label>
+                <div class="grid grid-cols-2 gap-4">
+                  <button onclick="addAnimation('bounce')" class="bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white px-4 py-2 rounded-lg btn-effect">
+                    <i class="fa fa-bounce mr-2"></i>弹跳
+                  </button>
+                  <button onclick="addAnimation('pulse')" class="bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white px-4 py-2 rounded-lg btn-effect">
+                    <i class="fa fa-pulse mr-2"></i>脉冲
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      // 开发类工具
+      apiTester: `
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-white mb-8">API测试小工具</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">API配置</label>
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">请求方法</label>
+                  <select id="apiMethod" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full">
+                    <option value="GET">GET</option>
+                    <option value="POST">POST</option>
+                    <option value="PUT">PUT</option>
+                    <option value="DELETE">DELETE</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">API URL</label>
+                  <input type="text" id="apiUrl" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full" value="https://jsonplaceholder.typicode.com/posts/1">
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">请求体 (JSON)</label>
+                  <textarea id="apiBody" class="code-editor w-full" placeholder="在此输入JSON请求体...">{"title": "测试标题", "body": "测试内容", "userId": 1}</textarea>
+                </div>
+              </div>
+              <div class="mt-6">
+                <button onclick="testApi()" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-play mr-2"></i>发送请求
                 </button>
-                <button onclick="textOperation('removeSpaces')" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect">
-                  <i class="fa fa-eraser mr-2"></i>移除空格
+              </div>
+            </div>
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">响应结果</label>
+              <div class="bg-gray-900 p-6 rounded-lg">
+                <pre id="apiResponse" class="result-area w-full">点击发送请求按钮查看结果</pre>
+              </div>
+              <div class="mt-6">
+                <label class="block text-gray-300 mb-2 font-medium">响应时间</label>
+                <div id="apiResponseTime" class="bg-gray-800/50 p-4 rounded-lg text-center">
+                  <span class="text-gray-400">等待请求...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      gitCommandGenerator: `
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-white mb-8">Git命令生成器</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">命令配置</label>
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">操作类型</label>
+                  <select id="gitOperation" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full">
+                    <option value="init">初始化仓库</option>
+                    <option value="add">添加文件</option>
+                    <option value="commit">提交更改</option>
+                    <option value="push">推送更改</option>
+                    <option value="pull">拉取更改</option>
+                    <option value="branch">分支操作</option>
+                    <option value="merge">合并分支</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">文件路径</label>
+                  <input type="text" id="gitFilePath" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full" placeholder="例如: *.js 或 src/">
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">提交信息</label>
+                  <input type="text" id="gitCommitMessage" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full" placeholder="例如: 修复bug">
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">分支名称</label>
+                  <input type="text" id="gitBranchName" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full" placeholder="例如: feature/new-feature">
+                </div>
+              </div>
+              <div class="mt-6">
+                <button onclick="generateGitCommand()" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-code mr-2"></i>生成命令
                 </button>
-                <button onclick="textOperation('count')" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect">
-                  <i class="fa fa-list-ol mr-2"></i>统计字符
+              </div>
+            </div>
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">生成的命令</label>
+              <div class="bg-gray-900 p-6 rounded-lg">
+                <pre id="gitCommandOutput" class="result-area w-full">选择操作类型并点击生成命令按钮</pre>
+              </div>
+              <div class="mt-6">
+                <button onclick="copyGitCommand()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-copy mr-2"></i>复制命令
                 </button>
-                <button onclick="clearText()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect">
+              </div>
+              <div class="mt-6">
+                <label class="block text-gray-300 mb-2 font-medium">常用命令</label>
+                <div class="grid grid-cols-2 gap-3">
+                  <button onclick="useCommonGitCommand('git status')" class="bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white px-3 py-2 rounded-lg btn-effect text-sm">
+                    git status
+                  </button>
+                  <button onclick="useCommonGitCommand('git log')" class="bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white px-3 py-2 rounded-lg btn-effect text-sm">
+                    git log
+                  </button>
+                  <button onclick="useCommonGitCommand('git diff')" class="bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white px-3 py-2 rounded-lg btn-effect text-sm">
+                    git diff
+                  </button>
+                  <button onclick="useCommonGitCommand('git stash')" class="bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white px-3 py-2 rounded-lg btn-effect text-sm">
+                    git stash
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      // 设计类工具
+      gradientGenerator: `
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-white mb-8">渐变色工具</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">渐变配置</label>
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">渐变类型</label>
+                  <select id="gradientType" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full">
+                    <option value="linear">线性渐变</option>
+                    <option value="radial">径向渐变</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">角度</label>
+                  <input type="range" id="gradientAngle" min="0" max="360" value="90" class="w-full">
+                  <div class="flex justify-between text-xs text-gray-400">
+                    <span>0°</span>
+                    <span id="gradientAngleValue">90°</span>
+                    <span>360°</span>
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">颜色 1</label>
+                  <input type="color" id="gradientColor1" class="w-20 h-20 rounded-lg cursor-pointer" value="#165DFF">
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">颜色 2</label>
+                  <input type="color" id="gradientColor2" class="w-20 h-20 rounded-lg cursor-pointer" value="#7B61FF">
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">颜色 3 (可选)</label>
+                  <input type="color" id="gradientColor3" class="w-20 h-20 rounded-lg cursor-pointer" value="#FF61BF">
+                </div>
+              </div>
+              <div class="mt-6">
+                <button onclick="generateGradient()" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-magic mr-2"></i>生成渐变
+                </button>
+              </div>
+            </div>
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">渐变预览</label>
+              <div class="bg-gray-900 p-6 rounded-lg">
+                <div id="gradientPreview" class="w-full h-[200px] rounded-lg mb-6" style="background: linear-gradient(90deg, #165DFF, #7B61FF, #FF61BF);"></div>
+                <div>
+                  <label class="block text-gray-300 mb-2 font-medium">CSS代码</label>
+                  <pre id="gradientCode" class="result-area w-full">background: linear-gradient(90deg, #165DFF, #7B61FF, #FF61BF);</pre>
+                </div>
+              </div>
+              <div class="mt-6">
+                <button onclick="copyGradientCode()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-copy mr-2"></i>复制CSS代码
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      svgEditor: `
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-white mb-8">SVG图标编辑器</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">SVG代码</label>
+              <textarea id="svgCodeInput" class="code-editor w-full" placeholder="在此输入SVG代码...">&lt;svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"&gt;
+  &lt;circle cx="12" cy="12" r="10"&gt;&lt;/circle&gt;
+  &lt;path d="M12 6v6l4 2"&gt;&lt;/path&gt;
+&lt;/svg&gt;</textarea>
+              <div class="mt-6 space-y-3">
+                <button onclick="previewSvg()" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-eye mr-2"></i>预览SVG
+                </button>
+                <button onclick="minifySvg()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-compress mr-2"></i>压缩SVG
+                </button>
+                <button onclick="clearSvg()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect w-full">
                   <i class="fa fa-trash mr-2"></i>清空
                 </button>
-                <button onclick="copyTextResult()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect">
+              </div>
+            </div>
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">SVG预览</label>
+              <div class="bg-gray-900 p-6 rounded-lg flex items-center justify-center">
+                <div id="svgPreview" class="w-full h-[300px] flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary text-6xl">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 6v6l4 2"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="mt-6">
+                <label class="block text-gray-300 mb-2 font-medium">预览大小</label>
+                <input type="range" id="svgPreviewSize" min="24" max="128" value="48" class="w-full">
+                <div class="flex justify-between text-xs text-gray-400">
+                  <span>24px</span>
+                  <span id="svgPreviewSizeValue">48px</span>
+                  <span>128px</span>
+                </div>
+              </div>
+              <div class="mt-6">
+                <button onclick="copySvgCode()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-copy mr-2"></i>复制SVG代码
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      fontPreview: `
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-white mb-8">字体预览对比器</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">字体配置</label>
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">字体 1</label>
+                  <select id="font1" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full">
+                    <option value="Arial, sans-serif">Arial</option>
+                    <option value="Helvetica, sans-serif">Helvetica</option>
+                    <option value="Georgia, serif">Georgia</option>
+                    <option value="Times New Roman, serif">Times New Roman</option>
+                    <option value="Courier New, monospace">Courier New</option>
+                    <option value="Verdana, sans-serif">Verdana</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">字体 2</label>
+                  <select id="font2" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full">
+                    <option value="Helvetica, sans-serif">Helvetica</option>
+                    <option value="Arial, sans-serif">Arial</option>
+                    <option value="Georgia, serif">Georgia</option>
+                    <option value="Times New Roman, serif">Times New Roman</option>
+                    <option value="Courier New, monospace">Courier New</option>
+                    <option value="Verdana, sans-serif">Verdana</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">字体大小</label>
+                  <input type="range" id="fontSize" min="12" max="36" value="16" class="w-full">
+                  <div class="flex justify-between text-xs text-gray-400">
+                    <span>12px</span>
+                    <span id="fontSizeValue">16px</span>
+                    <span>36px</span>
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">预览文本</label>
+                  <input type="text" id="previewText" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full" value="Hello World! 你好，世界！">
+                </div>
+              </div>
+              <div class="mt-6">
+                <button onclick="updateFontPreview()" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-magic mr-2"></i>更新预览
+                </button>
+              </div>
+            </div>
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">字体预览</label>
+              <div class="bg-gray-900 p-6 rounded-lg space-y-6">
+                <div>
+                  <h3 class="text-gray-400 mb-2" id="font1Name">Arial</h3>
+                  <div id="font1Preview" class="text-white" style="font-family: Arial, sans-serif; font-size: 16px;">Hello World! 你好，世界！</div>
+                </div>
+                <div>
+                  <h3 class="text-gray-400 mb-2" id="font2Name">Helvetica</h3>
+                  <div id="font2Preview" class="text-white" style="font-family: Helvetica, sans-serif; font-size: 16px;">Hello World! 你好，世界！</div>
+                </div>
+              </div>
+              <div class="mt-6">
+                <label class="block text-gray-300 mb-2 font-medium">字体信息</label>
+                <div class="bg-gray-800/50 p-4 rounded-lg">
+                  <div class="space-y-2">
+                    <div class="flex justify-between">
+                      <span class="text-gray-400">字体 1 类型:</span>
+                      <span id="font1Type" class="text-gray-300">sans-serif</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-gray-400">字体 2 类型:</span>
+                      <span id="font2Type" class="text-gray-300">sans-serif</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-gray-400">推荐使用:</span>
+                      <span id="fontRecommendation" class="text-gray-300">标题或正文</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      // 生产力工具
+      batchTextProcessor: `
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-white mb-8">批量文本处理工具</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">输入文本</label>
+              <textarea id="batchTextInput" class="code-editor w-full" placeholder="在此输入要处理的文本...">Line 1: Hello World
+Line 2: This is a test
+Line 3: Batch processing
+Line 4: Text manipulation
+Line 5: Productivity tool</textarea>
+              <div class="mt-6">
+                <label class="block text-gray-300 mb-2 font-medium">操作类型</label>
+                <select id="batchTextOperation" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full">
+                  <option value="uppercase">全部大写</option>
+                  <option value="lowercase">全部小写</option>
+                  <option value="capitalize">首字母大写</option>
+                  <option value="removeSpaces">移除空格</option>
+                  <option value="removeEmptyLines">移除空行</option>
+                  <option value="sortLines">排序行</option>
+                  <option value="reverseLines">反转行顺序</option>
+                  <option value="numberLines">添加行号</option>
+                </select>
+              </div>
+              <div class="mt-6 space-y-3">
+                <button onclick="processBatchText()" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-play mr-2"></i>处理文本
+                </button>
+                <button onclick="clearBatchText()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-trash mr-2"></i>清空
+                </button>
+              </div>
+            </div>
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">处理结果</label>
+              <pre id="batchTextOutput" class="result-area w-full">点击处理文本按钮查看结果</pre>
+              <div class="mt-6">
+                <label class="block text-gray-300 mb-2 font-medium">处理统计</label>
+                <div class="bg-gray-800/50 p-4 rounded-lg">
+                  <div class="grid grid-cols-2 gap-4">
+                    <div>
+                      <p class="text-sm text-gray-400">输入行数:</p>
+                      <p id="inputLineCount" class="text-lg font-medium text-white">0</p>
+                    </div>
+                    <div>
+                      <p class="text-sm text-gray-400">输出行数:</p>
+                      <p id="outputLineCount" class="text-lg font-medium text-white">0</p>
+                    </div>
+                    <div>
+                      <p class="text-sm text-gray-400">输入字符数:</p>
+                      <p id="inputCharCount" class="text-lg font-medium text-white">0</p>
+                    </div>
+                    <div>
+                      <p class="text-sm text-gray-400">输出字符数:</p>
+                      <p id="outputCharCount" class="text-lg font-medium text-white">0</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-6">
+                <button onclick="copyBatchTextResult()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect w-full">
                   <i class="fa fa-copy mr-2"></i>复制结果
                 </button>
               </div>
             </div>
-          `;
-          break;
-          
-        case 'timeTool':
-          content = `
-            <div class="max-w-4xl mx-auto">
-              <h2 class="text-3xl font-bold text-white mb-8">时间工具</h2>
-              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          </div>
+        </div>
+      `,
+      countdownTimer: `
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-white mb-8">定时任务倒计时工具</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">倒计时配置</label>
+              <div class="space-y-4">
                 <div>
-                  <label class="block text-gray-300 mb-2 font-medium">当前时间</label>
-                  <div class="bg-gray-900 p-6 rounded-lg text-center mb-6">
-                    <div id="currentTime" class="text-2xl font-bold text-white mb-2">2026-02-05 12:00:00</div>
-                    <p class="text-gray-400">实时更新</p>
-                  </div>
-                  <div>
-                    <label class="block text-gray-300 mb-2 font-medium">时间戳转换</label>
-                    <div class="space-y-4">
-                      <div class="grid grid-cols-2 gap-4">
-                        <div>
-                          <label class="block text-gray-400 mb-1 text-sm">时间戳</label>
-                          <input type="text" id="timestampInput" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full" placeholder="输入时间戳...">
-                        </div>
-                        <div>
-                          <label class="block text-gray-400 mb-1 text-sm">转换结果</label>
-                          <input type="text" id="timestampOutput" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full" readonly placeholder="转换结果将显示在这里">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="tool-actions mt-6 flex gap-4">
-                      <button onclick="convertTimestamp()" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect">
-                        <i class="fa fa-exchange mr-2"></i>转换
-                      </button>
-                      <button onclick="getCurrentTimestamp()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect">
-                        <i class="fa fa-clock-o mr-2"></i>获取当前时间戳
-                      </button>
-                    </div>
+                  <label class="block text-gray-400 mb-1 text-sm">目标时间</label>
+                  <input type="datetime-local" id="countdownTarget" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full">
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">任务名称</label>
+                  <input type="text" id="countdownTaskName" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full" placeholder="例如: 会议开始">
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">提醒方式</label>
+                  <div class="space-y-2">
+                    <label class="flex items-center gap-2">
+                      <input type="checkbox" id="countdownSound" class="rounded text-primary" checked>
+                      <span class="text-gray-300">声音提醒</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                      <input type="checkbox" id="countdownNotification" class="rounded text-primary" checked>
+                      <span class="text-gray-300">浏览器通知</span>
+                    </label>
                   </div>
                 </div>
                 <div>
-                  <label class="block text-gray-300 mb-2 font-medium">倒计时</label>
-                  <div class="bg-gray-900 p-6 rounded-lg text-center mb-6">
-                    <div id="countdownDisplay" class="text-3xl font-bold text-white mb-4">00:00:00</div>
-                    <div class="space-y-3">
-                      <div>
-                        <label class="block text-gray-400 mb-1 text-sm">目标时间</label>
-                        <input type="datetime-local" id="countdownTarget" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full">
-                      </div>
-                    </div>
+                  <label class="block text-gray-400 mb-1 text-sm">提前提醒</label>
+                  <select id="countdownReminder" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full">
+                    <option value="0">不提前提醒</option>
+                    <option value="60">提前1分钟</option>
+                    <option value="300">提前5分钟</option>
+                    <option value="600">提前10分钟</option>
+                    <option value="1800">提前30分钟</option>
+                    <option value="3600">提前1小时</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mt-6 space-y-3">
+                <button onclick="startCountdown()" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-play mr-2"></i>开始倒计时
+                </button>
+                <button onclick="pauseCountdown()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-pause mr-2"></i>暂停倒计时
+                </button>
+                <button onclick="resetCountdown()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-refresh mr-2"></i>重置倒计时
+                </button>
+              </div>
+            </div>
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">倒计时显示</label>
+              <div class="bg-gray-900 p-6 rounded-lg text-center">
+                <div id="countdownDisplay" class="text-4xl font-bold text-white mb-4">00:00:00</div>
+                <div id="countdownTaskDisplay" class="text-gray-400 mb-6">任务名称: 未设置</div>
+                <div class="grid grid-cols-4 gap-4 mb-6">
+                  <div class="bg-gray-800/50 p-4 rounded-lg">
+                    <div id="countdownDays" class="text-2xl font-bold text-white">0</div>
+                    <div class="text-sm text-gray-400">天</div>
                   </div>
-                  <div class="tool-actions mt-6 flex gap-4">
-                    <button onclick="startCountdown()" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect">
-                      <i class="fa fa-play mr-2"></i>开始倒计时
-                    </button>
-                    <button onclick="stopCountdown()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect">
-                      <i class="fa fa-stop mr-2"></i>停止倒计时
-                    </button>
+                  <div class="bg-gray-800/50 p-4 rounded-lg">
+                    <div id="countdownHours" class="text-2xl font-bold text-white">0</div>
+                    <div class="text-sm text-gray-400">时</div>
                   </div>
+                  <div class="bg-gray-800/50 p-4 rounded-lg">
+                    <div id="countdownMinutes" class="text-2xl font-bold text-white">0</div>
+                    <div class="text-sm text-gray-400">分</div>
+                  </div>
+                  <div class="bg-gray-800/50 p-4 rounded-lg">
+                    <div id="countdownSeconds" class="text-2xl font-bold text-white">0</div>
+                    <div class="text-sm text-gray-400">秒</div>
+                  </div>
+                </div>
+                <div id="countdownStatus" class="bg-gray-800/50 p-4 rounded-lg text-sm text-gray-300">
+                  等待开始倒计时
+                </div>
+              </div>
+              <div class="mt-6">
+                <label class="block text-gray-300 mb-2 font-medium">保存的任务</label>
+                <div id="savedCountdownTasks" class="bg-gray-800/50 p-4 rounded-lg">
+                  <div class="text-gray-400 text-center">暂无保存的任务</div>
                 </div>
               </div>
             </div>
-          `;
-          break;
-
-        default:
-          content = `
-            <div class="text-center py-24">
-              <h3 class="text-2xl font-semibold text-white mb-4">选择一个工具开始使用</h3>
-              <p class="text-gray-400">从上方选择一个工具，开始您的探索之旅</p>
-              <div class="mt-8 flex justify-center">
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-2xl">
-                  <div class="bg-gray-800/50 p-4 rounded-lg text-center">
-                    <i class="fa fa-code text-primary text-3xl mb-3"></i>
-                    <p class="text-sm text-gray-300">开发工具</p>
+          </div>
+        </div>
+      `,
+      qrCodeGenerator: `
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-white mb-8">二维码/条形码生成器</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">生成配置</label>
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">类型</label>
+                  <select id="codeType" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full">
+                    <option value="qr">二维码</option>
+                    <option value="bar">条形码</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">内容</label>
+                  <textarea id="codeContent" class="code-editor w-full" placeholder="在此输入要编码的内容...">https://example.com
+或者输入任何文本</textarea>
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">大小</label>
+                  <input type="range" id="codeSize" min="100" max="500" value="200" class="w-full">
+                  <div class="flex justify-between text-xs text-gray-400">
+                    <span>100px</span>
+                    <span id="codeSizeValue">200px</span>
+                    <span>500px</span>
                   </div>
-                  <div class="bg-gray-800/50 p-4 rounded-lg text-center">
-                    <i class="fa fa-paint-brush text-secondary text-3xl mb-3"></i>
-                    <p class="text-sm text-gray-300">设计工具</p>
-                  </div>
-                  <div class="bg-gray-800/50 p-4 rounded-lg text-center">
-                    <i class="fa fa-bolt text-accent text-3xl mb-3"></i>
-                    <p class="text-sm text-gray-300">效率工具</p>
-                  </div>
-                  <div class="bg-gray-800/50 p-4 rounded-lg text-center">
-                    <i class="fa fa-wrench text-primary text-3xl mb-3"></i>
-                    <p class="text-sm text-gray-300">实用工具</p>
-                  </div>
-                  <div class="bg-gray-800/50 p-4 rounded-lg text-center">
-                    <i class="fa fa-lightbulb-o text-secondary text-3xl mb-3"></i>
-                    <p class="text-sm text-gray-300">创意工具</p>
-                  </div>
-                  <div class="bg-gray-800/50 p-4 rounded-lg text-center">
-                    <i class="fa fa-globe text-accent text-3xl mb-3"></i>
-                    <p class="text-sm text-gray-300">全球工具</p>
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">颜色</label>
+                  <input type="color" id="codeColor" class="w-20 h-20 rounded-lg cursor-pointer" value="#000000">
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">背景颜色</label>
+                  <input type="color" id="codeBackgroundColor" class="w-20 h-20 rounded-lg cursor-pointer" value="#FFFFFF">
+                </div>
+              </div>
+              <div class="mt-6">
+                <button onclick="generateCode()" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-magic mr-2"></i>生成码
+                </button>
+              </div>
+            </div>
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">生成结果</label>
+              <div class="bg-gray-900 p-6 rounded-lg flex items-center justify-center">
+                <div id="codePreview" class="bg-white p-4 rounded-lg">
+                  <div class="text-gray-400 text-center py-20">
+                    点击生成码按钮查看结果
                   </div>
                 </div>
               </div>
+              <div class="mt-6">
+                <label class="block text-gray-300 mb-2 font-medium">格式</label>
+                <div class="grid grid-cols-2 gap-4">
+                  <button onclick="downloadCode('png')" class="bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white px-4 py-2 rounded-lg btn-effect">
+                    <i class="fa fa-download mr-2"></i>下载 PNG
+                  </button>
+                  <button onclick="downloadCode('svg')" class="bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white px-4 py-2 rounded-lg btn-effect">
+                    <i class="fa fa-download mr-2"></i>下载 SVG
+                  </button>
+                </div>
+              </div>
+              <div class="mt-6">
+                <label class="block text-gray-300 mb-2 font-medium">使用提示</label>
+                <div class="bg-gray-800/50 p-4 rounded-lg text-sm text-gray-300">
+                  <ul class="list-disc pl-5 space-y-1">
+                    <li>二维码可存储更多信息</li>
+                    <li>条形码适合存储简单数据</li>
+                    <li>确保颜色对比度足够</li>
+                    <li>生成后可直接保存图片</li>
+                  </ul>
+                </div>
+              </div>
             </div>
-          `;
-      }
-
-      // 更新工具内容
-      toolContent.innerHTML = content;
-      // 添加淡入动画
-      toolContent.classList.remove('fade-in');
-      void toolContent.offsetWidth; // 触发重排
-      toolContent.classList.add('fade-in');
-      
-      // 滚动到工具内容区域
-      toolContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          </div>
+        </div>
+      `,
+      // 可玩性小工具
+      randomIdeaGenerator: `
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-white mb-8">随机创意生成器</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">创意配置</label>
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">创意类型</label>
+                  <select id="ideaType" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full">
+                    <option value="general">通用创意</option>
+                    <option value="business">商业创意</option>
+                    <option value="design">设计创意</option>
+                    <option value="writing">写作创意</option>
+                    <option value="tech">科技创意</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">创意数量</label>
+                  <input type="range" id="ideaCount" min="1" max="10" value="3" class="w-full">
+                  <div class="flex justify-between text-xs text-gray-400">
+                    <span>1个</span>
+                    <span id="ideaCountValue">3个</span>
+                    <span>10个</span>
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">创意长度</label>
+                  <select id="ideaLength" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full">
+                    <option value="short">简短</option>
+                    <option value="medium">中等</option>
+                    <option value="long">详细</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mt-6">
+                <button onclick="generateIdeas()" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-lightbulb-o mr-2"></i>生成创意
+                </button>
+              </div>
+            </div>
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">生成的创意</label>
+              <div class="bg-gray-900 p-6 rounded-lg">
+                <div id="ideasList" class="space-y-4">
+                  <div class="text-gray-400 text-center py-10">
+                    点击生成创意按钮获取灵感
+                  </div>
+                </div>
+              </div>
+              <div class="mt-6">
+                <button onclick="copyIdeas()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-copy mr-2"></i>复制创意
+                </button>
+              </div>
+              <div class="mt-6">
+                <label class="block text-gray-300 mb-2 font-medium">创意提示</label>
+                <div class="bg-gray-800/50 p-4 rounded-lg text-sm text-gray-300">
+                  <p>创意是灵感的火花，不要急于评判，先记录下来。你可以：</p>
+                  <ul class="list-disc pl-5 space-y-1 mt-2">
+                    <li>结合多个创意产生新想法</li>
+                    <li>修改和扩展现有创意</li>
+                    <li>定期回顾保存的创意</li>
+                    <li>与他人分享创意获得反馈</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      asciiArtGenerator: `
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-white mb-8">ASCII艺术生成器</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">输入文本</label>
+              <input type="text" id="asciiText" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full" value="Hello!" placeholder="输入要转换的文本...">
+              <div class="mt-6">
+                <label class="block text-gray-300 mb-2 font-medium">ASCII字符集</label>
+                <select id="asciiCharset" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full">
+                  <option value="standard">标准字符集</option>
+                  <option value="simple">简单字符集</option>
+                  <option value="complex">复杂字符集</option>
+                  <option value="emoji">表情符号</option>
+                </select>
+              </div>
+              <div class="mt-6">
+                <label class="block text-gray-300 mb-2 font-medium">字体大小</label>
+                <input type="range" id="asciiFontSize" min="1" max="5" value="3" class="w-full">
+                <div class="flex justify-between text-xs text-gray-400">
+                  <span>小</span>
+                  <span id="asciiFontSizeValue">中等</span>
+                  <span>大</span>
+                </div>
+              </div>
+              <div class="mt-6">
+                <button onclick="generateAsciiArt()" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-magic mr-2"></i>生成ASCII艺术
+                </button>
+              </div>
+            </div>
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">ASCII艺术结果</label>
+              <div class="bg-gray-900 p-6 rounded-lg">
+                <pre id="asciiArtResult" class="result-area w-full font-mono text-sm">点击生成ASCII艺术按钮查看结果</pre>
+              </div>
+              <div class="mt-6">
+                <button onclick="copyAsciiArt()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-copy mr-2"></i>复制ASCII艺术
+                </button>
+              </div>
+              <div class="mt-6">
+                <label class="block text-gray-300 mb-2 font-medium">示例</label>
+                <div class="bg-gray-800/50 p-4 rounded-lg">
+                  <pre class="font-mono text-sm text-gray-300">
+  ___  _   _    _    _   _  ____ _   _ 
+ |_ _|| \ | |  / \  | \ | |/ ___| | | |
+  | | |  \| | / _ \ |  \| | |   | |_| |
+  | | | |\  |/ ___ \| |\  | |___|  _  |
+ |___||_| \_/_/   \_\_| \_|\____|_| |_|
+                  </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      dynamicTextGenerator: `
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-white mb-8">动态文字生成器</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">文字配置</label>
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">输入文字</label>
+                  <input type="text" id="dynamicText" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full" value="Hello World!" placeholder="输入要动画的文字...">
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">动画类型</label>
+                  <select id="dynamicTextAnimation" class="bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-3 py-2 w-full">
+                    <option value="fade">淡入淡出</option>
+                    <option value="slide">滑动</option>
+                    <option value="scale">缩放</option>
+                    <option value="rotate">旋转</option>
+                    <option value="wave">波浪</option>
+                    <option value="glow">发光</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">动画速度</label>
+                  <input type="range" id="dynamicTextSpeed" min="100" max="3000" value="1000" class="w-full">
+                  <div class="flex justify-between text-xs text-gray-400">
+                    <span>快</span>
+                    <span id="dynamicTextSpeedValue">中等</span>
+                    <span>慢</span>
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">文字颜色</label>
+                  <input type="color" id="dynamicTextColor" class="w-20 h-20 rounded-lg cursor-pointer" value="#165DFF">
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1 text-sm">背景颜色</label>
+                  <input type="color" id="dynamicTextBgColor" class="w-20 h-20 rounded-lg cursor-pointer" value="#000000">
+                </div>
+              </div>
+              <div class="mt-6">
+                <button onclick="generateDynamicText()" class="bg-gradient-primary text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-magic mr-2"></i>生成动态文字
+                </button>
+              </div>
+            </div>
+            <div>
+              <label class="block text-gray-300 mb-2 font-medium">动态文字预览</label>
+              <div class="bg-gray-900 p-6 rounded-lg flex items-center justify-center">
+                <div id="dynamicTextPreview" class="w-full h-[300px] flex items-center justify-center" style="background-color: #000000;">
+                  <div class="text-4xl font-bold text-white">Hello World!</div>
+                </div>
+              </div>
+              <div class="mt-6">
+                <label class="block text-gray-300 mb-2 font-medium">CSS代码</label>
+                <pre id="dynamicTextCode" class="result-area w-full">/* 点击生成动态文字按钮查看CSS代码 */</pre>
+              </div>
+              <div class="mt-6">
+                <button onclick="copyDynamicTextCode()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white px-5 py-2.5 rounded-lg btn-effect w-full">
+                  <i class="fa fa-copy mr-2"></i>复制CSS代码
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `
+    };
+    
+    // 工具过滤功能
+    function filterTools(category) {
+      const toolCards = document.querySelectorAll('.tool-card');
+      toolCards.forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+          card.style.display = 'block';
+          // 添加淡入动画
+          card.classList.remove('fade-in');
+          void card.offsetWidth; // 触发重排
+          card.classList.add('fade-in');
+        } else {
+          card.style.display = 'none';
+        }
+      });
     }
 
+    // 工具选择功能
+    function selectTool(toolName) {
+      // 清空工具内容
+      DOMCache.toolContent.innerHTML = '';
+      
+      // 添加加载动画
+      DOMCache.toolContent.innerHTML = `
+        <div class="flex items-center justify-center py-20">
+          <div class="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      `;
+      
+      // 模拟加载延迟
+      setTimeout(() => {
+        // 清空工具内容
+        DOMCache.toolContent.innerHTML = '';
+        
+        // 根据工具名称显示对应工具
+        if (toolContents[toolName]) {
+          DOMCache.toolContent.innerHTML = toolContents[toolName];
+        }
+        
+        // 添加淡入动画
+        DOMCache.toolContent.classList.remove('fade-in');
+        void DOMCache.toolContent.offsetWidth; // 触发重排
+        DOMCache.toolContent.classList.add('fade-in');
+        
+        // 滚动到工具内容区域
+        DOMCache.toolContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        
+        // 初始化工具特定的功能
+        if (toolName === 'passwordGenerator') {
+          initPasswordLength();
+        } else if (toolName === 'colorPicker') {
+          initColorPicker();
+        }
+      }, 300);
+    }
+
+    // ==============================
     // 工具函数实现
+    // ==============================
     
+    // ------------------------------
+    // API测试小工具
+    // ------------------------------
+    function testApi() {
+      const method = document.getElementById('apiMethod').value;
+      const url = document.getElementById('apiUrl').value;
+      const body = document.getElementById('apiBody').value;
+      const response = document.getElementById('apiResponse');
+      const responseTime = document.getElementById('apiResponseTime');
+      
+      // 清空之前的结果
+      response.textContent = '发送请求中...';
+      responseTime.innerHTML = '<div class="loading"></div>';
+      
+      // 记录开始时间
+      const startTime = Date.now();
+      
+      // 创建请求选项
+      const options = {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+      
+      // 如果不是GET请求且有请求体，添加请求体
+      if (method !== 'GET' && body.trim() !== '') {
+        try {
+          options.body = body;
+        } catch (e) {
+          response.textContent = '请求体格式错误: ' + e.message;
+          response.classList.add('error');
+          return;
+        }
+      }
+      
+      // 发送请求
+      fetch(url, options)
+        .then(res => {
+          // 计算响应时间
+          const endTime = Date.now();
+          const time = (endTime - startTime).toFixed(2);
+          responseTime.textContent = `响应时间: ${time}ms`;
+          
+          // 处理响应
+          return res.json().catch(() => res.text());
+        })
+        .then(data => {
+          // 格式化响应结果
+          if (typeof data === 'object') {
+            response.textContent = JSON.stringify(data, null, 2);
+          } else {
+            response.textContent = data;
+          }
+          response.classList.remove('error');
+        })
+        .catch(err => {
+          // 计算响应时间
+          const endTime = Date.now();
+          const time = (endTime - startTime).toFixed(2);
+          responseTime.textContent = `响应时间: ${time}ms`;
+          
+          response.textContent = '请求错误: ' + err.message;
+          response.classList.add('error');
+        });
+    }
+    
+    // ------------------------------
+    // Git命令生成器
+    // ------------------------------
+    function generateGitCommand() {
+      const operation = document.getElementById('gitOperation').value;
+      const filePath = document.getElementById('gitFilePath').value;
+      const commitMessage = document.getElementById('gitCommitMessage').value;
+      const branchName = document.getElementById('gitBranchName').value;
+      const output = document.getElementById('gitCommandOutput');
+      
+      let command = '';
+      
+      switch (operation) {
+        case 'init':
+          command = 'git init';
+          break;
+        case 'add':
+          command = `git add ${filePath || '.'}`;
+          break;
+        case 'commit':
+          command = `git commit -m "${commitMessage || 'Update'}"`;
+          break;
+        case 'push':
+          command = 'git push';
+          break;
+        case 'pull':
+          command = 'git pull';
+          break;
+        case 'branch':
+          if (branchName) {
+            command = `git checkout -b ${branchName}`;
+          } else {
+            command = 'git branch';
+          }
+          break;
+        case 'merge':
+          if (branchName) {
+            command = `git merge ${branchName}`;
+          } else {
+            command = 'git merge';
+          }
+          break;
+      }
+      
+      output.textContent = command;
+    }
+    
+    function useCommonGitCommand(cmd) {
+      document.getElementById('gitCommandOutput').textContent = cmd;
+    }
+    
+    function copyGitCommand() {
+      const command = document.getElementById('gitCommandOutput').textContent;
+      navigator.clipboard.writeText(command).then(() => {
+        showFeedback('已复制到剪贴板');
+      });
+    }
+    
+    // ------------------------------
+    // 渐变色工具
+    // ------------------------------
+    function generateGradient() {
+      const type = document.getElementById('gradientType').value;
+      const angle = document.getElementById('gradientAngle').value;
+      const color1 = document.getElementById('gradientColor1').value;
+      const color2 = document.getElementById('gradientColor2').value;
+      const color3 = document.getElementById('gradientColor3').value;
+      const preview = document.getElementById('gradientPreview');
+      const code = document.getElementById('gradientCode');
+      
+      let gradientCSS = '';
+      if (type === 'linear') {
+        gradientCSS = `linear-gradient(${angle}deg, ${color1}, ${color2}, ${color3})`;
+      } else {
+        gradientCSS = `radial-gradient(circle, ${color1}, ${color2}, ${color3})`;
+      }
+      
+      // 更新预览
+      preview.style.background = gradientCSS;
+      
+      // 更新代码
+      code.textContent = `background: ${gradientCSS};`;
+    }
+    
+    function copyGradientCode() {
+      const code = document.getElementById('gradientCode').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        showFeedback('已复制到剪贴板');
+      });
+    }
+    
+    // ------------------------------
+    // SVG图标编辑器
+    // ------------------------------
+    function previewSvg() {
+      const svgCode = document.getElementById('svgCodeInput').value;
+      const preview = document.getElementById('svgPreview');
+      
+      try {
+        preview.innerHTML = svgCode;
+      } catch (e) {
+        preview.innerHTML = '<div class="text-gray-400">SVG代码错误</div>';
+      }
+    }
+    
+    function minifySvg() {
+      const svgCode = document.getElementById('svgCodeInput').value;
+      let minified = svgCode;
+      // 替换多个空格为单个空格
+      minified = minified.split(/\s+/).join(' ');
+      // 移除注释
+      let inComment = false;
+      let result = '';
+      for (let i = 0; i < minified.length; i++) {
+        if (minified.substring(i, i + 4) === '<!--') {
+          inComment = true;
+          i += 3;
+        } else if (inComment && minified.substring(i, i + 3) === '-->') {
+          inComment = false;
+          i += 2;
+        } else if (!inComment) {
+          result += minified[i];
+        }
+      }
+      minified = result;
+      // 去除首尾空格
+      minified = minified.trim();
+      
+      document.getElementById('svgCodeInput').value = minified;
+      previewSvg();
+    }
+    
+    function clearSvg() {
+      document.getElementById('svgCodeInput').value = '';
+      document.getElementById('svgPreview').innerHTML = '<div class="text-gray-400">请输入SVG代码</div>';
+    }
+    
+    function copySvgCode() {
+      const svgCode = document.getElementById('svgCodeInput').value;
+      navigator.clipboard.writeText(svgCode).then(() => {
+        showFeedback('已复制到剪贴板');
+      });
+    }
+    
+    // ------------------------------
+    // 字体预览对比器
+    // ------------------------------
+    function updateFontPreview() {
+      const font1 = document.getElementById('font1').value;
+      const font2 = document.getElementById('font2').value;
+      const fontSize = document.getElementById('fontSize').value;
+      const previewText = document.getElementById('previewText').value;
+      
+      const font1Preview = document.getElementById('font1Preview');
+      const font2Preview = document.getElementById('font2Preview');
+      const font1Name = document.getElementById('font1Name');
+      const font2Name = document.getElementById('font2Name');
+      const font1Type = document.getElementById('font1Type');
+      const font2Type = document.getElementById('font2Type');
+      const fontRecommendation = document.getElementById('fontRecommendation');
+      
+      // 更新预览
+      font1Preview.style.fontFamily = font1;
+      font1Preview.style.fontSize = fontSize + 'px';
+      font1Preview.textContent = previewText;
+      
+      font2Preview.style.fontFamily = font2;
+      font2Preview.style.fontSize = fontSize + 'px';
+      font2Preview.textContent = previewText;
+      
+      // 更新字体名称
+      font1Name.textContent = font1.split(',')[0];
+      font2Name.textContent = font2.split(',')[0];
+      
+      // 更新字体类型
+      const font1TypeText = font1.includes('sans-serif') ? 'sans-serif' : 
+                            font1.includes('serif') ? 'serif' : 
+                            font1.includes('monospace') ? 'monospace' : 'other';
+      const font2TypeText = font2.includes('sans-serif') ? 'sans-serif' : 
+                            font2.includes('serif') ? 'serif' : 
+                            font2.includes('monospace') ? 'monospace' : 'other';
+      
+      font1Type.textContent = font1TypeText;
+      font2Type.textContent = font2TypeText;
+      
+      // 更新推荐
+      if (font1TypeText === 'sans-serif' && font2TypeText === 'sans-serif') {
+        fontRecommendation.textContent = '适合标题和正文';
+      } else if (font1TypeText === 'serif' || font2TypeText === 'serif') {
+        fontRecommendation.textContent = '适合正文和标题';
+      } else if (font1TypeText === 'monospace' || font2TypeText === 'monospace') {
+        fontRecommendation.textContent = '适合代码和等宽文本';
+      } else {
+        fontRecommendation.textContent = '根据具体字体而定';
+      }
+    }
+    
+    // ------------------------------
+    // 批量文本处理工具
+    // ------------------------------
+    function processBatchText() {
+      const input = document.getElementById('batchTextInput').value;
+      const operation = document.getElementById('batchTextOperation').value;
+      const output = document.getElementById('batchTextOutput');
+      const inputLineCount = document.getElementById('inputLineCount');
+      const outputLineCount = document.getElementById('outputLineCount');
+      const inputCharCount = document.getElementById('inputCharCount');
+      const outputCharCount = document.getElementById('outputCharCount');
+      
+      let result = input;
+      
+      // 处理文本
+      switch (operation) {
+        case 'uppercase':
+          result = input.toUpperCase();
+          break;
+        case 'lowercase':
+          result = input.toLowerCase();
+          break;
+        case 'capitalize':
+          result = input.split('\n').map(line => 
+            line.split(' ').map(word => 
+              word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+            ).join(' ')
+          ).join('\n');
+          break;
+        case 'removeSpaces':
+          result = input.replace(/\s+/g, '');
+          break;
+        case 'removeEmptyLines':
+          result = input.split('\n').filter(line => line.trim() !== '').join('\n');
+          break;
+        case 'sortLines':
+          result = input.split('\n').sort().join('\n');
+          break;
+        case 'reverseLines':
+          result = input.split('\n').reverse().join('\n');
+          break;
+        case 'numberLines':
+          result = input.split('\n').map((line, index) => `${index + 1}: ${line}`).join('\n');
+          break;
+      }
+      
+      // 更新输出
+      output.textContent = result;
+      
+      // 更新统计
+      inputLineCount.textContent = input.split('\n').length;
+      outputLineCount.textContent = result.split('\n').length;
+      inputCharCount.textContent = input.length;
+      outputCharCount.textContent = result.length;
+    }
+    
+    function clearBatchText() {
+      document.getElementById('batchTextInput').value = '';
+      document.getElementById('batchTextOutput').textContent = '点击处理文本按钮查看结果';
+      document.getElementById('inputLineCount').textContent = '0';
+      document.getElementById('outputLineCount').textContent = '0';
+      document.getElementById('inputCharCount').textContent = '0';
+      document.getElementById('outputCharCount').textContent = '0';
+    }
+    
+    function copyBatchTextResult() {
+      const result = document.getElementById('batchTextOutput').textContent;
+      navigator.clipboard.writeText(result).then(() => {
+        showFeedback('已复制到剪贴板');
+      });
+    }
+    
+    // ------------------------------
+    // 定时任务倒计时工具
+    // ------------------------------
+    let countdownTimer = null;
+    
+    function startCountdown() {
+      const target = document.getElementById('countdownTarget').value;
+      const taskName = document.getElementById('countdownTaskName').value;
+      const display = document.getElementById('countdownDisplay');
+      const taskDisplay = document.getElementById('countdownTaskDisplay');
+      const daysDisplay = document.getElementById('countdownDays');
+      const hoursDisplay = document.getElementById('countdownHours');
+      const minutesDisplay = document.getElementById('countdownMinutes');
+      const secondsDisplay = document.getElementById('countdownSeconds');
+      const statusDisplay = document.getElementById('countdownStatus');
+      
+      if (!target) {
+        display.textContent = '请选择目标时间';
+        return;
+      }
+      
+      // 停止现有倒计时
+      if (countdownTimer) {
+        clearInterval(countdownTimer);
+      }
+      
+      const targetDate = new Date(target).getTime();
+      
+      taskDisplay.textContent = `任务名称: ${taskName || '未命名任务'}`;
+      statusDisplay.textContent = '倒计时进行中...';
+      
+      countdownTimer = setInterval(() => {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+        
+        if (distance < 0) {
+          clearInterval(countdownTimer);
+          display.textContent = '倒计时结束!';
+          daysDisplay.textContent = '0';
+          hoursDisplay.textContent = '0';
+          minutesDisplay.textContent = '0';
+          secondsDisplay.textContent = '0';
+          statusDisplay.textContent = '任务已完成';
+          
+          // 播放提醒声音（如果启用）
+          if (document.getElementById('countdownSound').checked) {
+            // 这里可以添加声音提醒逻辑
+          }
+          
+          // 显示浏览器通知（如果启用）
+          if (document.getElementById('countdownNotification').checked && 'Notification' in window) {
+            Notification.requestPermission().then(permission => {
+              if (permission === 'granted') {
+                new Notification('倒计时提醒', {
+                  body: taskName || '任务已完成'
+                });
+              }
+            });
+          }
+          
+          return;
+        }
+        
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        display.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        daysDisplay.textContent = days;
+        hoursDisplay.textContent = hours;
+        minutesDisplay.textContent = minutes;
+        secondsDisplay.textContent = seconds;
+      }, 1000);
+    }
+    
+    function pauseCountdown() {
+      if (countdownTimer) {
+        clearInterval(countdownTimer);
+        countdownTimer = null;
+        document.getElementById('countdownStatus').textContent = '倒计时已暂停';
+      }
+    }
+    
+    function resetCountdown() {
+      if (countdownTimer) {
+        clearInterval(countdownTimer);
+        countdownTimer = null;
+      }
+      
+      document.getElementById('countdownDisplay').textContent = '00:00:00';
+      document.getElementById('countdownTaskDisplay').textContent = '任务名称: 未设置';
+      document.getElementById('countdownDays').textContent = '0';
+      document.getElementById('countdownHours').textContent = '0';
+      document.getElementById('countdownMinutes').textContent = '0';
+      document.getElementById('countdownSeconds').textContent = '0';
+      document.getElementById('countdownStatus').textContent = '等待开始倒计时';
+    }
+    
+    // ------------------------------
+    // 二维码/条形码生成器
+    // ------------------------------
+    function generateCode() {
+      const type = document.getElementById('codeType').value;
+      const content = document.getElementById('codeContent').value;
+      const size = document.getElementById('codeSize').value;
+      const color = document.getElementById('codeColor').value;
+      const bgColor = document.getElementById('codeBackgroundColor').value;
+      const preview = document.getElementById('codePreview');
+      
+      // 简单的二维码/条形码生成模拟
+      // 实际项目中可以使用专门的库如qrcode.js
+      preview.innerHTML = `
+        <div style="width: ${size}px; height: ${size}px; background-color: ${bgColor}; display: flex; align-items: center; justify-content: center; color: ${color}; font-size: ${size * 0.1}px; text-align: center;">
+          ${type === 'qr' ? 'QR CODE\n' + content.substring(0, 20) : 'BAR CODE\n' + content.substring(0, 10)}
+        </div>
+      `;
+    }
+    
+    function downloadCode(format) {
+      // 简单的下载模拟
+      showFeedback(`已开始下载 ${format} 格式的码`);
+    }
+    
+    // ------------------------------
+    // 随机创意生成器
+    // ------------------------------
+    function generateIdeas() {
+      const type = document.getElementById('ideaType').value;
+      const count = document.getElementById('ideaCount').value;
+      const length = document.getElementById('ideaLength').value;
+      const ideasList = document.getElementById('ideasList');
+      
+      // 创意库
+      const ideasLibrary = {
+        general: [
+          '创建一个可持续发展的社区花园',
+          '开发一款帮助老年人使用智能手机的应用',
+          '设计一个减少食物浪费的系统',
+          '组织一次本地艺术家展览',
+          '创建一个儿童阅读俱乐部',
+          '开发一款环保主题的棋盘游戏',
+          '设计一个社区技能共享平台',
+          '组织一次慈善跑步活动',
+          '创建一个本地历史档案项目',
+          '开发一款帮助学生学习编程的游戏'
+        ],
+        business: [
+          '创建一个订阅式咖啡配送服务',
+          '开发一款面向小型企业的库存管理软件',
+          '设计一个远程团队协作平台',
+          '启动一个环保包装材料公司',
+          '创建一个专业技能在线教育平台',
+          '开发一款健康餐饮配送服务',
+          '设计一个面向创业者的法律咨询应用',
+          '启动一个二手高端服装寄售平台',
+          '创建一个宠物护理服务预订平台',
+          '开发一款智能家庭能源管理系统'
+        ],
+        design: [
+          '设计一套可持续发展主题的插画',
+          '创建一个极简主义风格的品牌标识',
+          '开发一款面向设计师的配色方案工具',
+          '设计一个无障碍网站界面',
+          '创建一套环保主题的包装设计',
+          '开发一款交互式数据可视化工具',
+          '设计一个儿童友好的移动应用界面',
+          '创建一套文化遗产主题的字体',
+          '开发一款面向摄影师的后期处理插件',
+          '设计一个可持续时尚品牌的视觉识别系统'
+        ],
+        writing: [
+          '创作一部关于时间旅行的科幻小说',
+          '编写一本面向青少年的创业指南',
+          '开发一个帮助作家克服创作障碍的应用',
+          '创作一系列关于本地历史的短篇故事',
+          '编写一本关于可持续生活方式的手册',
+          '开发一个交互式诗歌创作平台',
+          '创作一部关于人工智能伦理的戏剧',
+          '编写一本面向儿童的编程启蒙书',
+          '开发一个帮助学生提高写作技能的工具',
+          '创作一系列关于环保主题的散文'
+        ],
+        tech: [
+          '开发一款帮助农民监测作物生长的物联网设备',
+          '创建一个基于区块链的供应链追踪系统',
+          '设计一款减少屏幕时间的智能手机应用',
+          '开发一个面向开发者的代码审查工具',
+          '创建一个人工智能辅助的医疗诊断系统',
+          '设计一款智能城市交通管理系统',
+          '开发一个基于虚拟现实的教育平台',
+          '创建一个帮助用户管理数字隐私的工具',
+          '设计一款可再生能源监测系统',
+          '开发一个基于机器学习的个性化学习平台'
+        ]
+      };
+      
+      // 生成创意
+      const ideas = ideasLibrary[type] || ideasLibrary.general;
+      const shuffled = [...ideas].sort(() => 0.5 - Math.random());
+      const selected = shuffled.slice(0, count);
+      
+      // 显示创意
+      ideasList.innerHTML = selected.map((idea, index) => `
+        <div class="bg-gray-800/50 p-4 rounded-lg">
+          <div class="flex items-start">
+            <div class="bg-primary text-white w-6 h-6 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+              ${index + 1}
+            </div>
+            <p class="text-gray-300">${idea}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    function copyIdeas() {
+      const ideasList = document.getElementById('ideasList');
+      const ideas = ideasList.textContent;
+      navigator.clipboard.writeText(ideas).then(() => {
+        showFeedback('已复制到剪贴板');
+      });
+    }
+    
+    // ------------------------------
+    // ASCII艺术生成器
+    // ------------------------------
+    function generateAsciiArt() {
+      const text = document.getElementById('asciiText').value;
+      const charset = document.getElementById('asciiCharset').value;
+      const fontSize = document.getElementById('asciiFontSize').value;
+      const result = document.getElementById('asciiArtResult');
+      
+      // 简单的ASCII艺术生成
+      // 实际项目中可以使用专门的库
+      const asciiChars = {
+        standard: '@#$%&*()[]{}|;:,. ',
+        simple: 'XO+-. ',
+        complex: '@#$%&*()[]{}|;:,.<>?/\\!"`~^+=_-',
+        emoji: '😀😃😄😁😆😅😂🤣☺️😊😇🙂🙃😉😌😍😘😗😙😚😋😜😝😛🤑🤗🤓😎🤡🤠😏😒😞😔😟😕🙁☹️😣😖😫😩😤😠😡😶😐😑😯😦😧😮😲😵😳😱😨😰😢😥😓🤗🤔🤥😬🤐🤢🤧😷🤒🤕😴💤💭'
+      };
+      
+      let asciiArt = '';
+      const chars = asciiChars[charset] || asciiChars.standard;
+      
+      // 为每个字符生成ASCII艺术
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        if (char === ' ') {
+          asciiArt += ' '.repeat(5);
+        } else {
+          // 简单的字符到ASCII的映射
+          const index = (char.charCodeAt(0) % chars.length);
+          const asciiChar = chars[index];
+          asciiArt += asciiChar.repeat(5);
+        }
+      }
+      
+      result.textContent = asciiArt;
+    }
+    
+    function copyAsciiArt() {
+      const art = document.getElementById('asciiArtResult').textContent;
+      navigator.clipboard.writeText(art).then(() => {
+        showFeedback('已复制到剪贴板');
+      });
+    }
+    
+    // ------------------------------
+    // 动态文字生成器
+    // ------------------------------
+    function generateDynamicText() {
+      const text = document.getElementById('dynamicText').value;
+      const animation = document.getElementById('dynamicTextAnimation').value;
+      const speed = document.getElementById('dynamicTextSpeed').value;
+      const color = document.getElementById('dynamicTextColor').value;
+      const bgColor = document.getElementById('dynamicTextBgColor').value;
+      const preview = document.getElementById('dynamicTextPreview');
+      const code = document.getElementById('dynamicTextCode');
+      
+      // 更新预览背景
+      preview.style.backgroundColor = bgColor;
+      
+      // 创建动态文字元素
+      const textElement = document.createElement('div');
+      textElement.textContent = text;
+      textElement.style.color = color;
+      textElement.style.fontSize = '4xl';
+      textElement.style.fontWeight = 'bold';
+      textElement.style.textAlign = 'center';
+      
+      // 添加动画
+      let animationCSS = '';
+      switch (animation) {
+        case 'fade':
+          animationCSS = `animation: fade ${speed}ms ease-in-out infinite`;
+          break;
+        case 'slide':
+          animationCSS = `animation: slide ${speed}ms ease-in-out infinite`;
+          break;
+        case 'scale':
+          animationCSS = `animation: scale ${speed}ms ease-in-out infinite`;
+          break;
+        case 'rotate':
+          animationCSS = `animation: spin ${speed}ms linear infinite`;
+          break;
+        case 'wave':
+          animationCSS = `animation: wave ${speed}ms ease-in-out infinite`;
+          break;
+        case 'glow':
+          animationCSS = `animation: glow ${speed}ms ease-in-out infinite`;
+          break;
+      }
+      
+      textElement.style = `${textElement.style.cssText} ${animationCSS}`;
+      
+      // 清空预览并添加新元素
+      preview.innerHTML = '';
+      preview.appendChild(textElement);
+      
+      // 更新CSS代码
+      code.textContent = `/* 动态文字CSS代码 */
+.dynamic-text {
+  color: ${color};
+  font-size: 4xl;
+  font-weight: bold;
+  text-align: center;
+  ${animationCSS};
+}
+
+/* 动画定义 */
+@keyframes fade {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes slide {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(20px); }
+}
+
+@keyframes scale {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes wave {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes glow {
+  0%, 100% { text-shadow: 0 0 5px ${color}; }
+  50% { text-shadow: 0 0 20px ${color}, 0 0 30px ${color}; }
+}`;
+    }
+    
+    function copyDynamicTextCode() {
+      const code = document.getElementById('dynamicTextCode').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        showFeedback('已复制到剪贴板');
+      });
+    }
+    
+    // ------------------------------
     // JSON格式化工具
+    // ------------------------------
     function formatJSON() {
       const input = document.getElementById('jsonInput');
       const output = document.getElementById('jsonOutput');
@@ -1134,11 +3001,13 @@ Try different operations below!</textarea>
     function copyJSON() {
       const output = document.getElementById('jsonOutput');
       navigator.clipboard.writeText(output.textContent).then(() => {
-        alert('已复制到剪贴板');
+        showFeedback('已复制到剪贴板');
       });
     }
 
+    // ------------------------------
     // 代码编辑器工具
+    // ------------------------------
     function runCode() {
       const input = document.getElementById('codeInput');
       const output = document.getElementById('codeOutput');
@@ -1182,11 +3051,13 @@ Try different operations below!</textarea>
     function copyCode() {
       const output = document.getElementById('codeOutput');
       navigator.clipboard.writeText(output.textContent).then(() => {
-        alert('已复制到剪贴板');
+        showFeedback('已复制到剪贴板');
       });
     }
 
+    // ------------------------------
     // 正则表达式测试器
+    // ------------------------------
     function testRegex() {
       const pattern = document.getElementById('regexPattern').value;
       const testText = document.getElementById('regexTestText').value;
@@ -1226,15 +3097,17 @@ Try different operations below!</textarea>
     function copyRegexResults() {
       const results = document.getElementById('regexResults');
       navigator.clipboard.writeText(results.textContent).then(() => {
-        alert('已复制到剪贴板');
+        showFeedback('已复制到剪贴板');
       });
     }
 
+    // ------------------------------
     // 颜色选择器工具
+    // ------------------------------
     function copyColor() {
       const hex = document.getElementById('colorHex').value;
       navigator.clipboard.writeText(hex).then(() => {
-        alert('已复制到剪贴板');
+        showFeedback('已复制到剪贴板');
       });
     }
 
@@ -1291,7 +3164,9 @@ Try different operations below!</textarea>
       }
     }
 
+    // ------------------------------
     // 动画工具
+    // ------------------------------
     function setAnimation(type) {
       const element = document.getElementById('animationElement');
       const code = document.getElementById('animationCode');
@@ -1347,11 +3222,13 @@ Try different operations below!</textarea>
     function copyAnimationCode() {
       const code = document.getElementById('animationCode');
       navigator.clipboard.writeText(code.textContent).then(() => {
-        alert('已复制到剪贴板');
+        showFeedback('已复制到剪贴板');
       });
     }
 
+    // ------------------------------
     // 图表生成器
+    // ------------------------------
     let chartInstance = null;
 
     function generateChart() {
@@ -1448,11 +3325,13 @@ Try different operations below!</textarea>
     function copyChartCode() {
       const code = document.getElementById('chartHtmlCode');
       navigator.clipboard.writeText(code.textContent).then(() => {
-        alert('已复制到剪贴板');
+        showFeedback('已复制到剪贴板');
       });
     }
 
+    // ------------------------------
     // 密码生成器
+    // ------------------------------
     function generatePassword() {
       const length = document.getElementById('passwordLength').value;
       const includeUppercase = document.getElementById('includeUppercase').checked;
@@ -1492,7 +3371,7 @@ Try different operations below!</textarea>
       const password = document.getElementById('generatedPassword').textContent;
       if (password !== '点击生成按钮创建密码') {
         navigator.clipboard.writeText(password).then(() => {
-          alert('已复制到剪贴板');
+          showFeedback('已复制到剪贴板');
         });
       }
     }
@@ -1526,7 +3405,9 @@ Try different operations below!</textarea>
       }
     }
 
+    // ------------------------------
     // 文本工具
+    // ------------------------------
     function textOperation(type) {
       const input = document.getElementById('textInput');
       const output = document.getElementById('textOutput');
@@ -1571,11 +3452,13 @@ Try different operations below!</textarea>
     function copyTextResult() {
       const output = document.getElementById('textOutput');
       navigator.clipboard.writeText(output.textContent).then(() => {
-        alert('已复制到剪贴板');
+        showFeedback('已复制到剪贴板');
       });
     }
 
+    // ------------------------------
     // 时间工具
+    // ------------------------------
     function updateCurrentTime() {
       const now = new Date();
       const timeString = now.toLocaleString('zh-CN', {
@@ -1670,33 +3553,329 @@ Try different operations below!</textarea>
       }
     }
 
-    // 初始化密码长度显示
-    document.addEventListener('DOMContentLoaded', function() {
-      const passwordLength = document.getElementById('passwordLength');
-      const lengthValue = document.getElementById('lengthValue');
+    // ------------------------------
+    // 通用功能
+    // ------------------------------
+    
+    // 显示工具操作反馈
+    function showFeedback(message) {
+      // 创建反馈元素
+      const feedback = document.createElement('div');
+      feedback.className = 'tool-operation-feedback';
+      feedback.textContent = message;
       
-      if (passwordLength && lengthValue) {
-        passwordLength.addEventListener('input', function() {
-          lengthValue.textContent = this.value;
+      // 添加到页面
+      document.body.appendChild(feedback);
+      
+      // 显示反馈
+      setTimeout(() => {
+        feedback.classList.add('show');
+      }, 10);
+      
+      // 3秒后隐藏并移除
+      setTimeout(() => {
+        feedback.classList.remove('show');
+        setTimeout(() => {
+          document.body.removeChild(feedback);
+        }, 300);
+      }, 3000);
+    }
+
+    // ------------------------------
+    // 趣味数据可视化工具
+    // ------------------------------
+    let currentChart = null;
+    
+    function generateVisualization() {
+      const type = document.getElementById('visualizationType').value;
+      const labels = document.getElementById('visualizationLabels').value.split(',').map(item => item.trim());
+      const values = document.getElementById('visualizationValues').value.split(',').map(item => parseFloat(item.trim()));
+      const theme = document.getElementById('visualizationTheme').value;
+      const container = document.getElementById('visualizationContainer');
+      
+      // 清空容器
+      container.innerHTML = '';
+      
+      // 创建canvas元素
+      const canvas = document.createElement('canvas');
+      canvas.id = 'visualizationCanvas';
+      container.appendChild(canvas);
+      
+      // 获取颜色主题
+      const colors = getThemeColors(theme);
+      
+      // 销毁现有图表
+      if (currentChart) {
+        currentChart.destroy();
+      }
+      
+      // 创建新图表
+      const ctx = canvas.getContext('2d');
+      
+      if (type === 'wordcloud') {
+        // 简单的词云模拟（使用Chart.js的气泡图）
+        const bubbleData = labels.map((label, index) => ({
+          x: Math.random() * 100,
+          y: Math.random() * 100,
+          r: values[index] * 2
+        }));
+        
+        currentChart = new Chart(ctx, {
+          type: 'bubble',
+          data: {
+            datasets: [{
+              label: '词云',
+              data: bubbleData,
+              backgroundColor: colors.map(color => color + '80'),
+              borderColor: colors,
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const index = context.dataIndex;
+                    return `${labels[index]}: ${values[index]}`;
+                  }
+                }
+              }
+            },
+            scales: {
+              x: {
+                display: false
+              },
+              y: {
+                display: false
+              }
+            }
+          }
+        });
+      } else if (type === 'doughnut') {
+        currentChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: labels,
+            datasets: [{
+              data: values,
+              backgroundColor: colors.map(color => color + '80'),
+              borderColor: colors,
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: {
+              animateScale: true,
+              animateRotate: true
+            }
+          }
+        });
+      } else if (type === 'line') {
+        currentChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: '数据趋势',
+              data: values,
+              borderColor: colors[0],
+              backgroundColor: colors[0] + '20',
+              tension: 0.4,
+              fill: true
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: {
+              duration: 2000
+            }
+          }
         });
       }
       
-      // 初始化颜色选择器
-      const colorInput = document.getElementById('colorInput');
-      if (colorInput) {
-        colorInput.addEventListener('input', function() {
+      // 添加生成动画
+      container.classList.add('animate-fade-in');
+    }
+    
+    function addAnimation(animationType) {
+      const container = document.getElementById('visualizationContainer');
+      
+      // 移除所有动画类
+      container.classList.remove('animate-bounce', 'animate-pulse');
+      
+      // 添加新动画类
+      if (animationType === 'bounce') {
+        container.classList.add('animate-bounce');
+      } else if (animationType === 'pulse') {
+        container.classList.add('animate-pulse');
+      }
+      
+      // 3秒后移除动画
+      setTimeout(() => {
+        container.classList.remove('animate-bounce', 'animate-pulse');
+      }, 3000);
+    }
+    
+    function getThemeColors(theme) {
+      const themes = {
+        primary: ['#165DFF', '#3B82F6', '#60A5FA', '#93C5FD', '#BFDBFE'],
+        secondary: ['#7B61FF', '#8B5CF6', '#A78BFA', '#C4B5FD', '#DDD6FE'],
+        accent: ['#FF61BF', '#EC4899', '#F472B6', '#F9A8D4', '#FBCFE8'],
+        rainbow: ['#165DFF', '#7B61FF', '#FF61BF', '#10B981', '#F59E0B']
+      };
+      return themes[theme] || themes.primary;
+    }
+    
+    // 导航栏滚动效果
+    function handleNavbarScroll() {
+      const navbar = document.querySelector('nav');
+      const navbarContent = navbar.querySelector('div');
+      const logo = navbar.querySelector('.flex.items-center');
+      
+      if (window.scrollY > 50) {
+        navbar.classList.add('shadow-lg');
+        navbarContent.classList.add('py-2');
+        navbarContent.classList.remove('py-3');
+        logo.querySelector('div').classList.add('w-8');
+        logo.querySelector('div').classList.add('h-8');
+        logo.querySelector('div').classList.remove('w-10');
+        logo.querySelector('div').classList.remove('h-10');
+        logo.querySelector('i').classList.add('text-lg');
+        logo.querySelector('i').classList.remove('text-xl');
+        logo.querySelector('span').classList.add('text-lg');
+        logo.querySelector('span').classList.remove('text-xl');
+      } else {
+        navbar.classList.remove('shadow-lg');
+        navbarContent.classList.add('py-3');
+        navbarContent.classList.remove('py-2');
+        logo.querySelector('div').classList.add('w-10');
+        logo.querySelector('div').classList.add('h-10');
+        logo.querySelector('div').classList.remove('w-8');
+        logo.querySelector('div').classList.remove('h-8');
+        logo.querySelector('i').classList.add('text-xl');
+        logo.querySelector('i').classList.remove('text-lg');
+        logo.querySelector('span').classList.add('text-xl');
+        logo.querySelector('span').classList.remove('text-lg');
+      }
+    }
+    
+    // 添加滚动事件监听器
+    window.addEventListener('scroll', handleNavbarScroll);
+    
+    // 全局变量缓存
+    const DOMCache = {
+      toolGrid: null,
+      toolContent: null,
+      mobileMenuButton: null,
+      mobileMenu: null,
+      passwordLength: null,
+      lengthValue: null,
+      colorInput: null,
+      toolCards: null
+    };
+    
+    // 初始化DOM缓存
+    function initDOMCache() {
+      DOMCache.toolGrid = document.getElementById('toolGrid');
+      DOMCache.toolContent = document.getElementById('toolContent');
+      DOMCache.mobileMenuButton = document.getElementById('mobileMenuButton');
+      DOMCache.mobileMenu = document.getElementById('mobileMenu');
+      DOMCache.passwordLength = document.getElementById('passwordLength');
+      DOMCache.lengthValue = document.getElementById('lengthValue');
+      DOMCache.colorInput = document.getElementById('colorInput');
+      DOMCache.toolCards = document.querySelectorAll('.tool-card');
+    }
+    
+    // 初始化密码长度显示
+    function initPasswordLength() {
+      if (DOMCache.passwordLength && DOMCache.lengthValue) {
+        DOMCache.passwordLength.addEventListener('input', function() {
+          DOMCache.lengthValue.textContent = this.value;
+        });
+      }
+    }
+    
+    // 初始化颜色选择器
+    function initColorPicker() {
+      if (DOMCache.colorInput) {
+        DOMCache.colorInput.addEventListener('input', function() {
           updateColorInfo(this.value);
         });
       }
-      
-      // 为工具卡片添加点击事件
+    }
+    
+    // 初始化工具卡片
+    function initToolCards() {
       const toolCards = document.querySelectorAll('.tool-card');
+      
+      // 为工具卡片添加进入动画，使用交错动画效果
+      toolCards.forEach((card, index) => {
+        setTimeout(() => {
+          card.classList.add('animate-in');
+        }, 80 * index); // 减小延迟，使动画更流畅
+      });
+    }
+    
+    // 工具卡片点击效果
+    function initToolCardClickEffects() {
+      const toolCards = document.querySelectorAll('.tool-card');
+      
       toolCards.forEach(card => {
         card.addEventListener('click', function() {
-          const toolName = this.dataset.tool;
-          selectTool(toolName);
+          // 添加点击缩放效果
+          this.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            this.style.transform = '';
+          }, 150);
         });
       });
+    }
+    
+    // 初始化移动导航菜单
+    function initMobileMenu() {
+      if (DOMCache.mobileMenuButton && DOMCache.mobileMenu) {
+        DOMCache.mobileMenuButton.addEventListener('click', function() {
+          DOMCache.mobileMenu.classList.toggle('hidden');
+          const icon = this.querySelector('i');
+          if (DOMCache.mobileMenu.classList.contains('hidden')) {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+          } else {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+          }
+        });
+      }
+    }
+    
+    // 事件委托 - 工具卡片点击
+    function initToolCardEvents() {
+      if (DOMCache.toolGrid) {
+        DOMCache.toolGrid.addEventListener('click', function(e) {
+          const toolCard = e.target.closest('.tool-card');
+          if (toolCard) {
+            const toolName = toolCard.dataset.tool;
+            selectTool(toolName);
+          }
+        });
+      }
+    }
+    
+    // 初始化所有功能
+    document.addEventListener('DOMContentLoaded', function() {
+      initDOMCache();
+      initPasswordLength();
+      initColorPicker();
+      initToolCards();
+      initToolCardClickEffects();
+      initMobileMenu();
+      initToolCardEvents();
     });
   </script>
 </body>
